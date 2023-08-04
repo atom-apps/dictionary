@@ -4,18 +4,19 @@
 package main
 
 import (
-	"log"
-
 	"github.com/atom-apps/dictionary/handlers"
 	"github.com/atom-apps/dictionary/modules/boot"
+	"github.com/atom-providers/etcd"
+	"github.com/atom-providers/log"
 	serviceGoMicro "github.com/atom-providers/service-gomicro"
 	"github.com/rogeecn/atom"
-	// serviceGrpc "github.com/atom-providers/service-grpc"
 )
 
 func main() {
 	providers := serviceGoMicro.
-		Default().
+		Default(
+			etcd.DefaultProvider(),
+		).
 		With(boot.Providers()).
 		With(handlers.Providers())
 
