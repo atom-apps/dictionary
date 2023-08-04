@@ -25,13 +25,6 @@ func Providers() container.Providers {
 }
 
 func provideGoMicroOptions(opts ...opt.Option) error {
-	_ = container.Container.Provide(func(ctx context.Context, log *log.Logger) micro.Option {
-		logger, _ := zap.NewLogger(
-			zap.WithLogger(log.RawLogger),
-		)
-		return micro.Logger(logger)
-	}, microGoMicro.GroupGoMicroOptions)
-
 	options := []micro.Option{
 		micro.Name(atom.AppName),
 		micro.Version(atom.AppVersion),
@@ -50,6 +43,7 @@ func provideGoMicroOptions(opts ...opt.Option) error {
 		logger, _ := zap.NewLogger(
 			zap.WithLogger(log.RawLogger),
 		)
+
 		return micro.Registry(etcd.NewRegistry(
 			registry.Logger(logger),
 			registry.Timeout(time.Second*5),
