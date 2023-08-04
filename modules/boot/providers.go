@@ -1,9 +1,12 @@
 package boot
 
 import (
+	"context"
 	"time"
 
+	"github.com/atom-providers/log"
 	microGoMicro "github.com/atom-providers/micro-gomicro"
+	"github.com/go-micro/plugins/v4/logger/zap"
 	"github.com/rogeecn/atom"
 	"github.com/rogeecn/atom/container"
 	"github.com/rogeecn/atom/utils/opt"
@@ -11,6 +14,7 @@ import (
 	"github.com/samber/lo"
 	"go-micro.dev/v4"
 	"go-micro.dev/v4/broker"
+	"go-micro.dev/v4/registry"
 	clientv3 "go.etcd.io/etcd/client/v3"
 )
 
@@ -21,6 +25,13 @@ func Providers() container.Providers {
 }
 
 func provideGoMicroOptions(opts ...opt.Option) error {
+	_ = container.Container.Provide(func(ctx context.Context, log *log.Logger) micro.Option {
+		logger, _ := zap.NewLogger(
+			zap.WithLogger(log.RawLogger),
+		)
+		return micro.Logger(logger)
+	}, microGoMicro.GroupGoMicroOptions)
+
 	options := []micro.Option{
 		micro.Name(atom.AppName),
 		micro.Version(atom.AppVersion),
@@ -35,8 +46,13 @@ func provideGoMicroOptions(opts ...opt.Option) error {
 		}, microGoMicro.GroupGoMicroOptions)
 	})
 
-	_ = container.Container.Provide(func(client *clientv3.Client) micro.Option {
+	_ = container.Container.Provide(func(ctx context.Context, log *log.Logger, client *clientv3.Client) micro.Option {
+		logger, _ := zap.NewLogger(
+			zap.WithLogger(log.RawLogger),
+		)
 		return micro.Registry(etcd.NewRegistry(
+			registry.Logger(logger),
+			registry.Timeout(time.Second*5),
 			etcd.Client(client),
 		))
 	}, microGoMicro.GroupGoMicroOptions)

@@ -6,6 +6,8 @@ require (
 	github.com/atom-providers/etcd v0.0.0-20230804125401-6f9496619cad
 	github.com/atom-providers/log v0.0.0-20230804123152-5fa2777f1da1
 	github.com/atom-providers/micro-gomicro v0.0.0-20230801062921-916296eb332a
+	github.com/atom-providers/service-gomicro v0.0.0-20230804133143-9e921abc9618
+	github.com/go-micro/plugins/v4/logger/zap v1.2.1
 	github.com/rogeecn/atom v1.0.7
 	github.com/rogeecn/gomicro-plugins/registry/etcd v0.0.0-20230804125834-b0d15ce78f7c
 	github.com/samber/lo v1.38.1
@@ -63,7 +65,6 @@ require (
 	github.com/pelletier/go-toml/v2 v2.0.9 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/rogpeppe/go-internal v1.10.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sergi/go-diff v1.3.1 // indirect
 	github.com/skeema/knownhosts v1.2.0 // indirect

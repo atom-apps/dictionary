@@ -86,6 +86,8 @@ github.com/atom-providers/log v0.0.0-20230804123152-5fa2777f1da1 h1:Sm7SzamCB7Gg
 github.com/atom-providers/log v0.0.0-20230804123152-5fa2777f1da1/go.mod h1:u65RtavNWB462yx5hlFVPG7Bs5C6zCBLMPsW6rgRoSM=
 github.com/atom-providers/micro-gomicro v0.0.0-20230801062921-916296eb332a h1:MrzGBTEHz656Pssl9pN5RrX3iRfBhvHNyZo299qBjFY=
 github.com/atom-providers/micro-gomicro v0.0.0-20230801062921-916296eb332a/go.mod h1:nyWTgifqqH0fwOUS7QPool+PZA7yuGJR8/uydjMsU5Y=
+github.com/atom-providers/service-gomicro v0.0.0-20230804133143-9e921abc9618 h1:Ml/7CTJLYqhc5tLtwxT/+C3Gq2FlnDhyqgfsFgzdTNM=
+github.com/atom-providers/service-gomicro v0.0.0-20230804133143-9e921abc9618/go.mod h1:0/IBOCRGvrNhRp94h4B0KmwwqT9lV0hVOiOxcIgzdgw=
 github.com/aws/aws-sdk-go v1.37.27/go.mod h1:hcU610XS61/+aQV88ixoOzUoG7v3b31pl2zKMmprdro=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
@@ -183,6 +185,8 @@ github.com/go-gl/glfw/v3.3/glfw v0.0.0-20200222043503-6f7a984d4dc4/go.mod h1:tQ2
 github.com/go-kit/kit v0.8.0/go.mod h1:xBxKIO96dXMWWy0MnWVtmwkA9/13aqxPnvrjFYMA2as=
 github.com/go-logfmt/logfmt v0.3.0/go.mod h1:Qt1PoO58o5twSAckw1HlFXLmHsOX5/0LbT9GBnD5lWE=
 github.com/go-logfmt/logfmt v0.4.0/go.mod h1:3RMwSq7FuexP4Kalkev3ejPJsZTpXXBr9+V4qmtdjCk=
+github.com/go-micro/plugins/v4/logger/zap v1.2.1 h1:O/pY+ytDg+rPgbu1CQmfDAjsHLNmDs0eN9qysk5EWgU=
+github.com/go-micro/plugins/v4/logger/zap v1.2.1/go.mod h1:f5ZxW266cKeNH62+z+HqxbDnXxTilbtWw6k+bt3YoYI=
 github.com/go-resty/resty/v2 v2.1.1-0.20191201195748-d7b97669fe48/go.mod h1:dZGr0i9PLlaaTD4H/hoZIDjQ+r6xq8mgbRzHZf7f2J8=
 github.com/go-sql-driver/mysql v1.6.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/go-sql-driver/mysql v1.7.0 h1:ueSltNNllEqE3qcWBTD0iQd3IpL/6U+mJxLkazJ7YPc=
