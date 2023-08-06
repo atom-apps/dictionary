@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             (unknown)
-// source: proto/v1/dict.proto
+// source: proto/v1/dictionary.proto
 
 package v1
 
@@ -19,14 +19,14 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DictionaryService_GetItems_FullMethodName = "/proto.v1.DictionaryService/GetItems"
+	DictionaryService_GetDictionaries_FullMethodName = "/proto.v1.DictionaryService/GetDictionaries"
 )
 
 // DictionaryServiceClient is the client API for DictionaryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DictionaryServiceClient interface {
-	GetItems(ctx context.Context, in *GetItemsRequest, opts ...grpc.CallOption) (*GetItemsResponse, error)
+	GetDictionaries(ctx context.Context, in *GetDictionariesRequest, opts ...grpc.CallOption) (*GetDictionariesResponse, error)
 }
 
 type dictionaryServiceClient struct {
@@ -37,9 +37,9 @@ func NewDictionaryServiceClient(cc grpc.ClientConnInterface) DictionaryServiceCl
 	return &dictionaryServiceClient{cc}
 }
 
-func (c *dictionaryServiceClient) GetItems(ctx context.Context, in *GetItemsRequest, opts ...grpc.CallOption) (*GetItemsResponse, error) {
-	out := new(GetItemsResponse)
-	err := c.cc.Invoke(ctx, DictionaryService_GetItems_FullMethodName, in, out, opts...)
+func (c *dictionaryServiceClient) GetDictionaries(ctx context.Context, in *GetDictionariesRequest, opts ...grpc.CallOption) (*GetDictionariesResponse, error) {
+	out := new(GetDictionariesResponse)
+	err := c.cc.Invoke(ctx, DictionaryService_GetDictionaries_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (c *dictionaryServiceClient) GetItems(ctx context.Context, in *GetItemsRequ
 // All implementations must embed UnimplementedDictionaryServiceServer
 // for forward compatibility
 type DictionaryServiceServer interface {
-	GetItems(context.Context, *GetItemsRequest) (*GetItemsResponse, error)
+	GetDictionaries(context.Context, *GetDictionariesRequest) (*GetDictionariesResponse, error)
 	mustEmbedUnimplementedDictionaryServiceServer()
 }
 
@@ -58,8 +58,8 @@ type DictionaryServiceServer interface {
 type UnimplementedDictionaryServiceServer struct {
 }
 
-func (UnimplementedDictionaryServiceServer) GetItems(context.Context, *GetItemsRequest) (*GetItemsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetItems not implemented")
+func (UnimplementedDictionaryServiceServer) GetDictionaries(context.Context, *GetDictionariesRequest) (*GetDictionariesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDictionaries not implemented")
 }
 func (UnimplementedDictionaryServiceServer) mustEmbedUnimplementedDictionaryServiceServer() {}
 
@@ -74,20 +74,20 @@ func RegisterDictionaryServiceServer(s grpc.ServiceRegistrar, srv DictionaryServ
 	s.RegisterService(&DictionaryService_ServiceDesc, srv)
 }
 
-func _DictionaryService_GetItems_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetItemsRequest)
+func _DictionaryService_GetDictionaries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDictionariesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictionaryServiceServer).GetItems(ctx, in)
+		return srv.(DictionaryServiceServer).GetDictionaries(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictionaryService_GetItems_FullMethodName,
+		FullMethod: DictionaryService_GetDictionaries_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictionaryServiceServer).GetItems(ctx, req.(*GetItemsRequest))
+		return srv.(DictionaryServiceServer).GetDictionaries(ctx, req.(*GetDictionariesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -100,10 +100,10 @@ var DictionaryService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DictionaryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetItems",
-			Handler:    _DictionaryService_GetItems_Handler,
+			MethodName: "GetDictionaries",
+			Handler:    _DictionaryService_GetDictionaries_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/v1/dict.proto",
+	Metadata: "proto/v1/dictionary.proto",
 }

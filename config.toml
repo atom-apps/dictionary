@@ -1,8 +1,12 @@
 [Http]
 Port = 9800
 
-[SQLite]
-File = "sqlite.db"
+[Postgres]
+Username = "postgres"
+Password = "xixi@0202"
+Database = "atom"
+Host = "10.58.144.6"
+Port = 30432
 
 [Swagger]
 BaseRoute = "doc"
@@ -24,3 +28,6 @@ Host = "10.58.144.6"
 Port = 36379
 Password = "xixi@0202"
 DB = 1
+
+[JWT]
+SignKey = "helloworld"

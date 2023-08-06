@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "github.com/atom-apps/dictionary/proto/v1";
+package proto.v1;
+
+service DictionaryService {
+    rpc GetDictionaries(GetDictionariesRequest) returns (GetDictionariesResponse){}
+}
+
+message GetDictionariesRequest {
+	uint64 UserID       = 1;
+	uint64 TenantID     = 2;
+	string Name         = 3;
+	string Slug         = 4;
+}
+
+message GetDictionariesResponse {
+    repeated DictionaryItem items = 1;
+}
+
+message DictionaryItem {
+	uint64 ID          = 1;
+	string CreatedAt    =2;
+	string UpdatedAt    = 3;
+	uint64 UserID       = 4;
+	uint64 TenantID     = 5;
+	string Name         = 6;
+	string Slug         = 7 ;
+	string Description  = 8;
+}
