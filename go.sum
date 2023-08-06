@@ -84,6 +84,8 @@ github.com/atom-providers/service-gomicro v0.0.0-20230805084608-db7e1439a24c h1:
 github.com/atom-providers/service-gomicro v0.0.0-20230805084608-db7e1439a24c/go.mod h1:/HQGYfyv7zptLlxJ24Iew6YdAOQLHdL0oW2DQrEp460=
 github.com/atom-providers/service-http v0.0.0-20230801065331-0ca178a11240 h1:0T4ayKTg8xzvWaEWJ4c+5PGKI0vat113RmzXt/14wgo=
 github.com/atom-providers/service-http v0.0.0-20230801065331-0ca178a11240/go.mod h1:H1WthmhLHcYG1kz8EHZxTR/kYB9bIlkaZqY5HmASaEU=
+github.com/atom-providers/service-http v0.0.0-20230806075931-d82b61b86c44 h1:TQXarsmP0a9Z/8tU2Iv/TJp6j+YNXqQu+e/6TwWVi9w=
+github.com/atom-providers/service-http v0.0.0-20230806075931-d82b61b86c44/go.mod h1:m64w0FfbIbahTAjDhmYjowy8iIDB+/AjHDWRvApR+9E=
 github.com/atom-providers/uuid v0.0.0-20230801062951-5331ee1b8af6 h1:NHpmXyqTc2LlSR6a2pdKIQgec1Xn4omNaK73WxO+o4s=
 github.com/atom-providers/uuid v0.0.0-20230801062951-5331ee1b8af6/go.mod h1:CO4G45VZd1ahxVrLWLG0BfiRWjd5W5IwE17XWL7aOOY=
 github.com/benbjohnson/clock v1.3.0 h1:ip6w0uFQkncKQ979AypyG0ER7mqUSBdKLOgAle/AT8A=

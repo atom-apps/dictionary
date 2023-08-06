@@ -25,8 +25,8 @@ type DictionaryGroupListQueryFilter struct {
 }
 
 // FromProto
-func (m *DictionaryGroupListQueryFilter) FromProto(req *v1.DictionaryService) error {
-	return copier.Copy(&m, req)
+func (m *DictionaryGroupListQueryFilter) FromProto(req v1.DictionaryService) error {
+	return copier.Copy(&m, &req)
 }
 
 type DictionaryGroupItem struct {
@@ -41,8 +41,8 @@ type DictionaryGroupItem struct {
 	Items       []KeyValue `json:"items,omitempty"`       // items
 }
 
-func (m *DictionaryGroupItem) ToProto() *v1.DictionaryService {
-	var resp *v1.DictionaryService
+func (m *DictionaryGroupItem) ToProto() v1.DictionaryService {
+	var resp v1.DictionaryService
 	lo.Must0(copier.Copy(&resp, m))
 	return resp
 }

@@ -8,7 +8,7 @@ require (
 	github.com/atom-providers/jwt v0.0.0-20230806074857-2325e341c73e
 	github.com/atom-providers/log v0.0.0-20230805054420-343ad809890e
 	github.com/atom-providers/service-gomicro v0.0.0-20230805084608-db7e1439a24c
-	github.com/atom-providers/service-http v0.0.0-20230801065331-0ca178a11240
+	github.com/atom-providers/service-http v0.0.0-20230806075931-d82b61b86c44
 	github.com/brianvoe/gofakeit/v6 v6.23.1
 	github.com/go-micro/plugins/v4/logger/zap v1.2.1
 	github.com/gofiber/fiber/v2 v2.48.0
