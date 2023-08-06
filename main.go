@@ -22,7 +22,7 @@ func main() {
 
 	opts := []atom.Option{
 		atom.Name("dictionary"),
-		atom.Version("1.0.2"),
+		atom.Version("1.0.3"),
 		atom.RunE(serviceGoMicro.ServeE),
 	}
 

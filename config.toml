@@ -8,13 +8,19 @@ File = "sqlite.db"
 BaseRoute = "doc"
 Title = "Api"
 Description = "Api Docs"
-BasePath= "/v1"
+BasePath = "/v1"
 Version = "1.0.0"
 
 [GoMicro]
-Port= 9800
+# Port= 9800
 
 [Etcd]
-Endpoints= ["10.58.144.6:32379"]
+Endpoints = ["10.58.144.6:32379"]
 Password = "xixi@0202"
 DialTimeout = 15
+
+[Redis]
+Host = "10.58.144.6"
+Port = 36379
+Password = "xixi@0202"
+DB = 1
