@@ -20,7 +20,6 @@ type DictionaryGroupItem struct {
 	UpdatedAt         time.Time      `gorm:"column:updated_at;type:timestamp with time zone" json:"updated_at"`
 	DeletedAt         gorm.DeletedAt `gorm:"column:deleted_at;type:timestamp with time zone" json:"deleted_at"`
 	DictionaryGroupID int64          `gorm:"column:dictionary_group_id;type:bigint" json:"dictionary_group_id"`
-	Key               string         `gorm:"column:key;type:character varying(198);not null;comment:字典项键" json:"key"`     // 字典项键
 	Value             string         `gorm:"column:value;type:character varying(198);not null;comment:字典项值" json:"value"` // 字典项值
 	Order             int64          `gorm:"column:order;type:bigint;not null;comment:排序" json:"order"`                   // 排序
 }

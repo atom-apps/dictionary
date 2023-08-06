@@ -35,7 +35,7 @@ func (svc *DictionaryGroupService) DecorateItem(model *models.DictionaryGroup, i
 	if err == nil {
 		dtoItem.Items = lo.Map(items, func(item *models.DictionaryGroupItem, _ int) dto.KeyValue {
 			return dto.KeyValue{
-				Key:   item.Key,
+				Key:   uint64(item.ID),
 				Value: item.Value,
 			}
 		})

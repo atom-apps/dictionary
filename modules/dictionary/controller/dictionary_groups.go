@@ -102,7 +102,7 @@ func (c *DictionaryGroupController) List(
 //
 //	@Summary		create new item
 //	@Description	create new item
-//	@Tags			Dictionary
+//	@Tags			Dictionary/put
 //	@Accept			json
 //	@Produce		json
 //	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
@@ -149,7 +149,7 @@ func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.D
 //	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
 //	@Success		200		{string}	DictionaryGroupID
 //	@Failure		500		{string}	DictionaryGroupID
-//	@Router			/dictionaries/{id} [put]
+//	@Router			/dictionaries/{id}/user [put]
 func (c *DictionaryGroupController) UpdateByUserID(ctx *fiber.Ctx, id int64, body *dto.DictionaryGroupForm) error {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
 	if !ok {

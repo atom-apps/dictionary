@@ -147,6 +147,8 @@ github.com/go-git/go-git/v5 v5.8.1/go.mod h1:FHFuoD6yGz5OSKEBK+aWN9Oah0q54Jxl0ab
 github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1/go.mod h1:vR7hzQXu2zJy9AVAgeJqvqgH9Q5CA+iKCZ2gyEVpxRU=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20191125211704-12ad95a8df72/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
 github.com/go-gl/glfw/v3.3/glfw v0.0.0-20200222043503-6f7a984d4dc4/go.mod h1:tQ2UAYgL5IevRw8kRxooKSPJfGvJ9fJQFa0TUsXzTg8=
+github.com/go-gormigrate/gormigrate/v2 v2.1.0 h1:4/1xr9CjOox714EJWbxkF00lrNmbWJToSZzhykKKcKY=
+github.com/go-gormigrate/gormigrate/v2 v2.1.0/go.mod h1:gpA97koYGyjqaiLDTmLE5W7nyYTmI26AYIf2a/earuo=
 github.com/go-micro/plugins/v4/client/grpc v1.1.0 h1:1MlhnyLxlZpzYY7gepj5zGJNn06yL+3OBbDfh0Z6jH0=
 github.com/go-micro/plugins/v4/client/grpc v1.2.1 h1:7xAwZRCO6mdUtBHsYIQs1/eCTdhCrnjF70GB+AVd6L0=
 github.com/go-micro/plugins/v4/client/grpc v1.2.1/go.mod h1:3fDuzyfYLwEImn8+lkhKl3W4Ay1jFevkTeC32PBlgQs=

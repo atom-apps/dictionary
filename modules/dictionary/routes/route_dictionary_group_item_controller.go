@@ -14,8 +14,8 @@ import (
 
 func routeDictionaryGroupItemController(engine fiber.Router, controller *controller.DictionaryGroupItemController) {
 	basePath := "/"+engine.(*fiber.Group).Prefix
-	engine.Get(strings.TrimPrefix("/dictionaries/:dictionary_id/items/:id", basePath), DataFunc2(controller.Show, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
-	engine.Post(strings.TrimPrefix("/dictionaries/:dictionary_id/items", basePath), Func2(controller.Create, Integer[int64]("dictionaryId", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
-	engine.Put(strings.TrimPrefix("/dictionaries/:dictionary_id/items/:id", basePath), Func3(controller.Update, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
-	engine.Delete(strings.TrimPrefix("/dictionaries/:dictionary_id/items/:id", basePath), Func2(controller.Delete, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
+	engine.Get(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), DataFunc2(controller.Show, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
+	engine.Post(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items", basePath), Func2(controller.Create, Integer[int64]("dictionaryId", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
+	engine.Put(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), Func3(controller.Update, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
+	engine.Delete(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), Func2(controller.Delete, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
 }

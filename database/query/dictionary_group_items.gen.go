@@ -32,7 +32,6 @@ func newDictionaryGroupItem(db *gorm.DB, opts ...gen.DOOption) dictionaryGroupIt
 	_dictionaryGroupItem.UpdatedAt = field.NewTime(tableName, "updated_at")
 	_dictionaryGroupItem.DeletedAt = field.NewField(tableName, "deleted_at")
 	_dictionaryGroupItem.DictionaryGroupID = field.NewInt64(tableName, "dictionary_group_id")
-	_dictionaryGroupItem.Key = field.NewString(tableName, "key")
 	_dictionaryGroupItem.Value = field.NewString(tableName, "value")
 	_dictionaryGroupItem.Order = field.NewInt64(tableName, "order")
 
@@ -50,7 +49,6 @@ type dictionaryGroupItem struct {
 	UpdatedAt         field.Time
 	DeletedAt         field.Field
 	DictionaryGroupID field.Int64
-	Key               field.String // 字典项键
 	Value             field.String // 字典项值
 	Order             field.Int64  // 排序
 
@@ -74,7 +72,6 @@ func (d *dictionaryGroupItem) updateTableName(table string) *dictionaryGroupItem
 	d.UpdatedAt = field.NewTime(table, "updated_at")
 	d.DeletedAt = field.NewField(table, "deleted_at")
 	d.DictionaryGroupID = field.NewInt64(table, "dictionary_group_id")
-	d.Key = field.NewString(table, "key")
 	d.Value = field.NewString(table, "value")
 	d.Order = field.NewInt64(table, "order")
 
@@ -105,13 +102,12 @@ func (d *dictionaryGroupItem) GetFieldByName(fieldName string) (field.OrderExpr,
 }
 
 func (d *dictionaryGroupItem) fillFieldMap() {
-	d.fieldMap = make(map[string]field.Expr, 8)
+	d.fieldMap = make(map[string]field.Expr, 7)
 	d.fieldMap["id"] = d.ID
 	d.fieldMap["created_at"] = d.CreatedAt
 	d.fieldMap["updated_at"] = d.UpdatedAt
 	d.fieldMap["deleted_at"] = d.DeletedAt
 	d.fieldMap["dictionary_group_id"] = d.DictionaryGroupID
-	d.fieldMap["key"] = d.Key
 	d.fieldMap["value"] = d.Value
 	d.fieldMap["order"] = d.Order
 }

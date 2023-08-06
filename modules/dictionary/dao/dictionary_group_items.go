@@ -52,9 +52,6 @@ func (dao *DictionaryGroupItemDao) decorateQueryFilter(query query.IDictionaryGr
 	if queryFilter.DictionaryGroupID != nil {
 		query = query.Where(dao.query.DictionaryGroupItem.DictionaryGroupID.Eq(*queryFilter.DictionaryGroupID))
 	}
-	if queryFilter.Key != nil {
-		query = query.Where(dao.query.DictionaryGroupItem.Key.Eq(*queryFilter.Key))
-	}
 	if queryFilter.Value != nil {
 		query = query.Where(dao.query.DictionaryGroupItem.Value.Eq(*queryFilter.Value))
 	}
@@ -96,6 +93,13 @@ func (dao *DictionaryGroupItemDao) Create(ctx context.Context, model *models.Dic
 
 func (dao *DictionaryGroupItemDao) GetByID(ctx context.Context, id int64) (*models.DictionaryGroupItem, error) {
 	return dao.Context(ctx).Where(dao.query.DictionaryGroupItem.ID.Eq(id)).First()
+}
+
+func (dao *DictionaryGroupItemDao) GetByValue(ctx context.Context, dictionaryID int64, value string) (*models.DictionaryGroupItem, error) {
+	return dao.Context(ctx).Where(
+		dao.query.DictionaryGroupItem.DictionaryGroupID.Eq(dictionaryID),
+		dao.query.DictionaryGroupItem.Value.Eq(value),
+	).First()
 }
 
 func (dao *DictionaryGroupItemDao) GetByIDs(ctx context.Context, ids []int64) ([]*models.DictionaryGroupItem, error) {

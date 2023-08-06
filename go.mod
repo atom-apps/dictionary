@@ -51,6 +51,7 @@ require (
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.4.1 // indirect
 	github.com/go-git/go-git/v5 v5.8.1 // indirect
+	github.com/go-gormigrate/gormigrate/v2 v2.1.0 // indirect
 	github.com/go-micro/plugins/v4/client/grpc v1.2.1 // indirect
 	github.com/go-micro/plugins/v4/server/grpc v1.2.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect

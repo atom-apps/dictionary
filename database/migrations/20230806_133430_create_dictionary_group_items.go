@@ -9,7 +9,6 @@ func (m *Migration20230806_133430CreateDictionaryGroupItems) table() interface{}
 	type DictionaryGroupItems struct {
 		gorm.Model
 		DictionaryGroupID uint
-		Key               string `gorm:"type:varchar(198); not null; comment:字典项键"`
 		Value             string `gorm:"type:varchar(198); not null; comment:字典项值"`
 		Order             uint   `gorm:"unsigned; not null;default 0;comment:排序"`
 	}

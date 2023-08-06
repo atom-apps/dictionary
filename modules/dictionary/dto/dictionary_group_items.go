@@ -3,7 +3,7 @@ package dto
 type DictionaryGroupItemForm struct {
 	Key   string `form:"key" json:"key,omitempty"`     // 字典项键
 	Value string `form:"value" json:"value,omitempty"` // 字典项值
-	Order int64  `form:"order" json:"order,omitempty"` // 排序
+	Order *int64 `form:"order" json:"order,omitempty"` // 排序
 }
 
 type DictionaryGroupItemListQueryFilter struct {

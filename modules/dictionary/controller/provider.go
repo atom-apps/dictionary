@@ -9,9 +9,11 @@ import (
 func Provide(opts ...opt.Option) error {
 	if err := container.Container.Provide(func(
 		dictionaryGroupItemSvc *service.DictionaryGroupItemService,
+		dictionaryGroupSvc *service.DictionaryGroupService,
 	) (*DictionaryGroupItemController, error) {
 		obj := &DictionaryGroupItemController{
 			dictionaryGroupItemSvc: dictionaryGroupItemSvc,
+			dictionaryGroupSvc:     dictionaryGroupSvc,
 		}
 		return obj, nil
 	}); err != nil {

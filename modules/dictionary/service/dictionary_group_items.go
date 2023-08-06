@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 
+	"github.com/atom-apps/common/errorx"
 	"github.com/atom-apps/dictionary/common"
 	"github.com/atom-apps/dictionary/database/models"
 	"github.com/atom-apps/dictionary/modules/dictionary/dao"
@@ -27,6 +28,10 @@ func (svc *DictionaryGroupItemService) GetByID(ctx context.Context, id int64) (*
 	return svc.dictionaryGroupItemDao.GetByID(ctx, id)
 }
 
+func (svc *DictionaryGroupItemService) GetByValue(ctx context.Context, dictionaryId int64, value string) (*models.DictionaryGroupItem, error) {
+	return svc.dictionaryGroupItemDao.GetByValue(ctx, dictionaryId, value)
+}
+
 func (svc *DictionaryGroupItemService) FindByQueryFilter(
 	ctx context.Context,
 	dictionaryId int,
@@ -43,9 +48,20 @@ func (svc *DictionaryGroupItemService) CreateFromModel(ctx context.Context, mode
 
 // Create
 func (svc *DictionaryGroupItemService) Create(ctx context.Context, dictionaryId int64, body *dto.DictionaryGroupItemForm) error {
-	model := &models.DictionaryGroupItem{}
-	_ = copier.Copy(model, body)
-	model.DictionaryGroupID = dictionaryId
+	m, _ := svc.GetByValue(ctx, dictionaryId, body.Value)
+	if m != nil {
+		return errorx.ErrRecordAlreadyExists
+	}
+
+	model := &models.DictionaryGroupItem{
+		DictionaryGroupID: dictionaryId,
+		Value:             body.Value,
+		Order:             0,
+	}
+
+	if body.Order != nil {
+		model.Order = *body.Order
+	}
 	return svc.dictionaryGroupItemDao.Create(ctx, model)
 }
 

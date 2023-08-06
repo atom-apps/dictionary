@@ -9,8 +9,8 @@ import (
 )
 
 type DictionaryGroupForm struct {
-	UserID      int64  `form:"user_id" json:"user_id,omitempty"`         // 用户ID
-	TenantID    int64  `form:"tenant_id" json:"tenant_id,omitempty"`     // 租户ID
+	UserID      int64  // 用户ID
+	TenantID    int64  // 租户ID
 	Name        string `form:"name" json:"name,omitempty"`               // 字典组名称
 	Slug        string `form:"slug" json:"slug,omitempty"`               //
 	Description string `form:"description" json:"description,omitempty"` // 字典组描述
@@ -48,6 +48,6 @@ func (m *DictionaryGroupItem) ToProto() v1.DictionaryService {
 }
 
 type KeyValue struct {
-	Key   string
+	Key   uint64
 	Value string
 }
