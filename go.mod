@@ -5,16 +5,17 @@ go 1.19
 require (
 	github.com/atom-apps/common v0.0.0-20230806085632-519221a09fe7
 	github.com/atom-providers/database-postgres v0.0.0-20230801062836-e1fae5b15d58
-	github.com/atom-providers/jwt v0.0.0-20230806074857-2325e341c73e
+	github.com/atom-providers/jwt v0.0.0-20230807083334-ca95f630467c
 	github.com/atom-providers/log v0.0.0-20230805054420-343ad809890e
 	github.com/atom-providers/service-http v0.0.0-20230806075931-d82b61b86c44
 	github.com/brianvoe/gofakeit/v6 v6.23.1
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/jinzhu/copier v0.3.5
 	github.com/rogeecn/atom v1.0.8
-	github.com/rogeecn/fen v1.0.6
+	github.com/rogeecn/fen v1.0.7
 	github.com/samber/lo v1.38.1
 	go-micro.dev/v4 v4.10.2
+	golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
 	gorm.io/gen v0.3.23
@@ -99,7 +100,6 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.25.0 // indirect
 	golang.org/x/crypto v0.12.0 // indirect
-	golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sync v0.3.0 // indirect

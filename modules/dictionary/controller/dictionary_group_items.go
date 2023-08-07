@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-//	@provider
+// @provider
 type DictionaryGroupItemController struct {
 	dictionaryGroupSvc     *service.DictionaryGroupService
 	dictionaryGroupItemSvc *service.DictionaryGroupItemService
