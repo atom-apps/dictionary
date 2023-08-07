@@ -9,9 +9,7 @@ import (
 	"github.com/atom-apps/dictionary/modules/boot"
 	modulesDictionary "github.com/atom-apps/dictionary/modules/dictionary"
 	databasePostgres "github.com/atom-providers/database-postgres"
-	"github.com/atom-providers/etcd"
 	"github.com/atom-providers/log"
-	"github.com/atom-providers/swagger"
 
 	// serviceGoMicro "github.com/atom-providers/service-gomicro"
 	"github.com/atom-providers/jwt"
@@ -22,10 +20,8 @@ import (
 func main() {
 	providers := serviceHttp.
 		Default(
-			swagger.DefaultProvider(),
 			jwt.DefaultProvider(),
 			query.DefaultProvider(),
-			etcd.DefaultProvider(),
 			databasePostgres.DefaultProvider(),
 		).
 		With(boot.Providers()).

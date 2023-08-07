@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+option go_package = "github.com/atom-apps/dictionary/proto/v1";
+package proto.v1;
+
+// import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+
+service DictionaryItemService {
+  rpc Show(DictionaryItemShowRequest) returns (DictionaryItemShowResponse);
+  rpc Create(DictionaryItemCreateRequest) returns (google.protobuf.Empty);
+  rpc Update(DictionaryItemUpdateRequest) returns (google.protobuf.Empty);
+  rpc Delete(DictionaryItemDeleteRequest) returns (google.protobuf.Empty);
+}
+// Show
+
+message DictionaryItemShowRequest {
+  int64 group_id = 1;
+  int64 id = 2;
+}
+
+message DictionaryItemShowResponse {
+  int64 group_id = 1;
+  int64 id = 2;
+  string value = 3;
+  int64 order = 4;
+}
+
+// Create
+message DictionaryItemCreateRequest {
+  int64 group_id = 1;
+  string value = 2;
+  int64 order = 3;
+}
+
+// Update
+message DictionaryItemUpdateRequest {
+  int64 group_id = 1;
+  int64 id = 2;
+  string value = 3;
+  int64 order = 4;
+}
+
+// Delete
+message DictionaryItemDeleteRequest {
+  int64 group_id = 1;
+  int64 id = 2;
+}

@@ -104,6 +104,38 @@
                 }
             }
         },
+        "/dictionaries/slug/{slug}": {
+            "get": {
+                "description": "get info by slug",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "get by slug",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "DictionaryGroupSlug",
+                        "name": "slug",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupItem"
+                        }
+                    }
+                }
+            }
+        },
         "/dictionaries/{dictionary_id}/items": {
             "post": {
                 "description": "create new item",
@@ -429,124 +461,6 @@
                     }
                 }
             }
-        },
-        "/dictionaries/{id}/user": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "get info by user id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Dictionary"
-                ],
-                "summary": "get by user id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "DictionaryGroupID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.DictionaryGroupItem"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "update by user id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Dictionary"
-                ],
-                "summary": "update by user id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "DictionaryGroupID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "DictionaryGroupForm",
-                        "name": "body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.DictionaryGroupForm"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "delete by user id",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Dictionary"
-                ],
-                "summary": "delete by user id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "DictionaryGroupID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -624,10 +538,6 @@
         "dto.DictionaryGroupItemForm": {
             "type": "object",
             "properties": {
-                "key": {
-                    "description": "字典项键",
-                    "type": "string"
-                },
                 "order": {
                     "description": "排序",
                     "type": "integer"
@@ -643,10 +553,6 @@
             "properties": {
                 "id": {
                     "type": "integer"
-                },
-                "key": {
-                    "description": "字典项键",
-                    "type": "string"
                 },
                 "order": {
                     "description": "排序",

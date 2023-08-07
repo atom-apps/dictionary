@@ -3,28 +3,66 @@ syntax = "proto3";
 option go_package = "github.com/atom-apps/dictionary/proto/v1";
 package proto.v1;
 
+// import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+
 service DictionaryService {
-    rpc GetDictionaries(GetDictionariesRequest) returns (GetDictionariesResponse){}
+  rpc Paginate(DictionaryPaginateRequest) returns (DictionaryPaginateResponse);
+  rpc Create(DictionaryCreateRequest) returns (google.protobuf.Empty);
+  rpc Update(DictionaryUpdateRequest) returns (google.protobuf.Empty);
+  rpc Share(IDRequest) returns (google.protobuf.Empty);
+  rpc Delete(IDRequest) returns (google.protobuf.Empty);
+  rpc Show(IDRequest) returns (DictionaryItem);
+  rpc ShowBySlug(ShowBySlugRequest) returns (DictionaryItem);
 }
 
-message GetDictionariesRequest {
-	uint64 UserID       = 1;
-	uint64 TenantID     = 2;
-	string Name         = 3;
-	string Slug         = 4;
-}
+// Common
+message IDRequest { int64 id = 1; }
 
-message GetDictionariesResponse {
-    repeated DictionaryItem items = 1;
+message KeyValue {
+  int64 key = 1;
+  string value = 2;
 }
 
 message DictionaryItem {
-	uint64 ID          = 1;
-	string CreatedAt    =2;
-	string UpdatedAt    = 3;
-	uint64 UserID       = 4;
-	uint64 TenantID     = 5;
-	string Name         = 6;
-	string Slug         = 7 ;
-	string Description  = 8;
+  int64 id = 1;
+  string created_at = 2;
+  string updated_at = 3;
+  int64 user_id = 4;
+  int64 tenant_id = 5;
+  string name = 6;
+  string slug = 7;
+  string description = 8;
+  repeated KeyValue items = 9;
 }
+
+// Paginate
+message DictionaryPaginateRequest {
+  int64 page = 1;
+  int64 limit = 2;
+  string name = 3;
+  string slug = 4;
+}
+
+message DictionaryPaginateResponse {
+  int64 total = 1;
+  repeated DictionaryItem items = 2;
+}
+
+// Create
+message DictionaryCreateRequest {
+  string name = 1;
+  string slug = 2;
+  string description = 3;
+}
+
+// Update
+message DictionaryUpdateRequest {
+  int64 id = 1;
+  string name = 4;
+  string slug = 5;
+  string description = 6;
+}
+
+// ShowBySlug
+message ShowBySlugRequest { string slug = 1; }

@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -19,14 +20,26 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	DictionaryService_GetDictionaries_FullMethodName = "/proto.v1.DictionaryService/GetDictionaries"
+	DictionaryService_Paginate_FullMethodName   = "/proto.v1.DictionaryService/Paginate"
+	DictionaryService_Create_FullMethodName     = "/proto.v1.DictionaryService/Create"
+	DictionaryService_Update_FullMethodName     = "/proto.v1.DictionaryService/Update"
+	DictionaryService_Share_FullMethodName      = "/proto.v1.DictionaryService/Share"
+	DictionaryService_Delete_FullMethodName     = "/proto.v1.DictionaryService/Delete"
+	DictionaryService_Show_FullMethodName       = "/proto.v1.DictionaryService/Show"
+	DictionaryService_ShowBySlug_FullMethodName = "/proto.v1.DictionaryService/ShowBySlug"
 )
 
 // DictionaryServiceClient is the client API for DictionaryService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DictionaryServiceClient interface {
-	GetDictionaries(ctx context.Context, in *GetDictionariesRequest, opts ...grpc.CallOption) (*GetDictionariesResponse, error)
+	Paginate(ctx context.Context, in *DictionaryPaginateRequest, opts ...grpc.CallOption) (*DictionaryPaginateResponse, error)
+	Create(ctx context.Context, in *DictionaryCreateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Update(ctx context.Context, in *DictionaryUpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Share(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Delete(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Show(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*DictionaryItem, error)
+	ShowBySlug(ctx context.Context, in *ShowBySlugRequest, opts ...grpc.CallOption) (*DictionaryItem, error)
 }
 
 type dictionaryServiceClient struct {
@@ -37,9 +50,63 @@ func NewDictionaryServiceClient(cc grpc.ClientConnInterface) DictionaryServiceCl
 	return &dictionaryServiceClient{cc}
 }
 
-func (c *dictionaryServiceClient) GetDictionaries(ctx context.Context, in *GetDictionariesRequest, opts ...grpc.CallOption) (*GetDictionariesResponse, error) {
-	out := new(GetDictionariesResponse)
-	err := c.cc.Invoke(ctx, DictionaryService_GetDictionaries_FullMethodName, in, out, opts...)
+func (c *dictionaryServiceClient) Paginate(ctx context.Context, in *DictionaryPaginateRequest, opts ...grpc.CallOption) (*DictionaryPaginateResponse, error) {
+	out := new(DictionaryPaginateResponse)
+	err := c.cc.Invoke(ctx, DictionaryService_Paginate_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dictionaryServiceClient) Create(ctx context.Context, in *DictionaryCreateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DictionaryService_Create_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dictionaryServiceClient) Update(ctx context.Context, in *DictionaryUpdateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DictionaryService_Update_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dictionaryServiceClient) Share(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DictionaryService_Share_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dictionaryServiceClient) Delete(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, DictionaryService_Delete_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dictionaryServiceClient) Show(ctx context.Context, in *IDRequest, opts ...grpc.CallOption) (*DictionaryItem, error) {
+	out := new(DictionaryItem)
+	err := c.cc.Invoke(ctx, DictionaryService_Show_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *dictionaryServiceClient) ShowBySlug(ctx context.Context, in *ShowBySlugRequest, opts ...grpc.CallOption) (*DictionaryItem, error) {
+	out := new(DictionaryItem)
+	err := c.cc.Invoke(ctx, DictionaryService_ShowBySlug_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +117,13 @@ func (c *dictionaryServiceClient) GetDictionaries(ctx context.Context, in *GetDi
 // All implementations must embed UnimplementedDictionaryServiceServer
 // for forward compatibility
 type DictionaryServiceServer interface {
-	GetDictionaries(context.Context, *GetDictionariesRequest) (*GetDictionariesResponse, error)
+	Paginate(context.Context, *DictionaryPaginateRequest) (*DictionaryPaginateResponse, error)
+	Create(context.Context, *DictionaryCreateRequest) (*emptypb.Empty, error)
+	Update(context.Context, *DictionaryUpdateRequest) (*emptypb.Empty, error)
+	Share(context.Context, *IDRequest) (*emptypb.Empty, error)
+	Delete(context.Context, *IDRequest) (*emptypb.Empty, error)
+	Show(context.Context, *IDRequest) (*DictionaryItem, error)
+	ShowBySlug(context.Context, *ShowBySlugRequest) (*DictionaryItem, error)
 	mustEmbedUnimplementedDictionaryServiceServer()
 }
 
@@ -58,8 +131,26 @@ type DictionaryServiceServer interface {
 type UnimplementedDictionaryServiceServer struct {
 }
 
-func (UnimplementedDictionaryServiceServer) GetDictionaries(context.Context, *GetDictionariesRequest) (*GetDictionariesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDictionaries not implemented")
+func (UnimplementedDictionaryServiceServer) Paginate(context.Context, *DictionaryPaginateRequest) (*DictionaryPaginateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Paginate not implemented")
+}
+func (UnimplementedDictionaryServiceServer) Create(context.Context, *DictionaryCreateRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (UnimplementedDictionaryServiceServer) Update(context.Context, *DictionaryUpdateRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (UnimplementedDictionaryServiceServer) Share(context.Context, *IDRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Share not implemented")
+}
+func (UnimplementedDictionaryServiceServer) Delete(context.Context, *IDRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+func (UnimplementedDictionaryServiceServer) Show(context.Context, *IDRequest) (*DictionaryItem, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Show not implemented")
+}
+func (UnimplementedDictionaryServiceServer) ShowBySlug(context.Context, *ShowBySlugRequest) (*DictionaryItem, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShowBySlug not implemented")
 }
 func (UnimplementedDictionaryServiceServer) mustEmbedUnimplementedDictionaryServiceServer() {}
 
@@ -74,20 +165,128 @@ func RegisterDictionaryServiceServer(s grpc.ServiceRegistrar, srv DictionaryServ
 	s.RegisterService(&DictionaryService_ServiceDesc, srv)
 }
 
-func _DictionaryService_GetDictionaries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetDictionariesRequest)
+func _DictionaryService_Paginate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DictionaryPaginateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DictionaryServiceServer).GetDictionaries(ctx, in)
+		return srv.(DictionaryServiceServer).Paginate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: DictionaryService_GetDictionaries_FullMethodName,
+		FullMethod: DictionaryService_Paginate_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DictionaryServiceServer).GetDictionaries(ctx, req.(*GetDictionariesRequest))
+		return srv.(DictionaryServiceServer).Paginate(ctx, req.(*DictionaryPaginateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DictionaryService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DictionaryCreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DictionaryServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DictionaryService_Create_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DictionaryServiceServer).Create(ctx, req.(*DictionaryCreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DictionaryService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DictionaryUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DictionaryServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DictionaryService_Update_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DictionaryServiceServer).Update(ctx, req.(*DictionaryUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DictionaryService_Share_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DictionaryServiceServer).Share(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DictionaryService_Share_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DictionaryServiceServer).Share(ctx, req.(*IDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DictionaryService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DictionaryServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DictionaryService_Delete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DictionaryServiceServer).Delete(ctx, req.(*IDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DictionaryService_Show_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DictionaryServiceServer).Show(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DictionaryService_Show_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DictionaryServiceServer).Show(ctx, req.(*IDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DictionaryService_ShowBySlug_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShowBySlugRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DictionaryServiceServer).ShowBySlug(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DictionaryService_ShowBySlug_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DictionaryServiceServer).ShowBySlug(ctx, req.(*ShowBySlugRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -100,8 +299,32 @@ var DictionaryService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*DictionaryServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetDictionaries",
-			Handler:    _DictionaryService_GetDictionaries_Handler,
+			MethodName: "Paginate",
+			Handler:    _DictionaryService_Paginate_Handler,
+		},
+		{
+			MethodName: "Create",
+			Handler:    _DictionaryService_Create_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _DictionaryService_Update_Handler,
+		},
+		{
+			MethodName: "Share",
+			Handler:    _DictionaryService_Share_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _DictionaryService_Delete_Handler,
+		},
+		{
+			MethodName: "Show",
+			Handler:    _DictionaryService_Show_Handler,
+		},
+		{
+			MethodName: "ShowBySlug",
+			Handler:    _DictionaryService_ShowBySlug_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

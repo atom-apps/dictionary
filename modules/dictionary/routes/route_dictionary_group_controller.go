@@ -16,12 +16,10 @@ import (
 func routeDictionaryGroupController(engine fiber.Router, controller *controller.DictionaryGroupController) {
 	basePath := "/"+engine.(*fiber.Group).Prefix
 	engine.Get(strings.TrimPrefix("/dictionaries/:id<int>", basePath), DataFunc1(controller.Show, Integer[int64]("id", PathParamError)))
-	engine.Get(strings.TrimPrefix("/dictionaries/:id<int>/user", basePath), DataFunc1(controller.ShowByUserID, Integer[int64]("id", PathParamError)))
+	engine.Get(strings.TrimPrefix("/dictionaries/slug/:slug", basePath), DataFunc1(controller.ShowBySlug, String("slug", PathParamError)))
 	engine.Get(strings.TrimPrefix("/dictionaries", basePath), DataFunc3(controller.List, Query[dto.DictionaryGroupListQueryFilter](QueryParamError), Query[common.PageQueryFilter](QueryParamError), Query[common.SortQueryFilter](QueryParamError)))
 	engine.Post(strings.TrimPrefix("/dictionaries", basePath), Func1(controller.Create, Body[dto.DictionaryGroupForm](BodyParamError)))
 	engine.Put(strings.TrimPrefix("/dictionaries/:id<int>", basePath), Func2(controller.Update, Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupForm](BodyParamError)))
-	engine.Put(strings.TrimPrefix("/dictionaries/:id<int>/user", basePath), Func2(controller.UpdateByUserID, Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupForm](BodyParamError)))
 	engine.Delete(strings.TrimPrefix("/dictionaries/:id<int>", basePath), Func1(controller.Delete, Integer[int64]("id", PathParamError)))
-	engine.Delete(strings.TrimPrefix("/dictionaries/:id<int>/user", basePath), Func1(controller.DeleteByUserID, Integer[int64]("id", PathParamError)))
 	engine.Put(strings.TrimPrefix("/dictionaries/:id<int>/share", basePath), Func1(controller.Share, Integer[int64]("id", PathParamError)))
 }

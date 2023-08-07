@@ -30,7 +30,14 @@ func (c *DictionaryGroupItemController) Show(ctx *fiber.Ctx, dictionaryId, id in
 	if !ok {
 		return nil, jwt.TokenInvalid
 	}
-	_, err := c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+	var err error
+	if claim.IsAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), dictionaryId)
+	} else if claim.IsTenantAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), claim.TenantID, dictionaryId)
+	} else {
+		_, err = c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +66,14 @@ func (c *DictionaryGroupItemController) Create(ctx *fiber.Ctx, dictionaryId int6
 	if !ok {
 		return jwt.TokenInvalid
 	}
-	_, err := c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+	var err error
+	if claim.IsAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), dictionaryId)
+	} else if claim.IsTenantAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), claim.TenantID, dictionaryId)
+	} else {
+		_, err = c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+	}
 	if err != nil {
 		return err
 	}
@@ -85,7 +99,14 @@ func (c *DictionaryGroupItemController) Update(ctx *fiber.Ctx, dictionaryId, id 
 	if !ok {
 		return jwt.TokenInvalid
 	}
-	_, err := c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+	var err error
+	if claim.IsAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), dictionaryId)
+	} else if claim.IsTenantAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), claim.TenantID, dictionaryId)
+	} else {
+		_, err = c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+	}
 	if err != nil {
 		return err
 	}
@@ -110,7 +131,15 @@ func (c *DictionaryGroupItemController) Delete(ctx *fiber.Ctx, dictionaryId, id 
 	if !ok {
 		return jwt.TokenInvalid
 	}
-	_, err := c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+
+	var err error
+	if claim.IsAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), dictionaryId)
+	} else if claim.IsTenantAdmin() {
+		_, err = c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), claim.TenantID, dictionaryId)
+	} else {
+		_, err = c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, dictionaryId)
+	}
 	if err != nil {
 		return err
 	}

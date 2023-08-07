@@ -16,6 +16,11 @@ type DictionaryGroupForm struct {
 	Description string `form:"description" json:"description,omitempty"` // 字典组描述
 }
 
+// FromProto
+func (m *DictionaryGroupForm) FromProto(req *v1.DictionaryCreateRequest) error {
+	return copier.Copy(&m, &req)
+}
+
 type DictionaryGroupListQueryFilter struct {
 	TenantID int64 `json:"tenant_id,omitempty" swaggerignore:"true"` // 租户ID
 	UserID   int64 `json:"user_id,omitempty" swaggerignore:"true"`   // 用户ID
@@ -25,8 +30,8 @@ type DictionaryGroupListQueryFilter struct {
 }
 
 // FromProto
-func (m *DictionaryGroupListQueryFilter) FromProto(req v1.DictionaryService) error {
-	return copier.Copy(&m, &req)
+func (m *DictionaryGroupListQueryFilter) FromProto(req *v1.DictionaryPaginateRequest) error {
+	return copier.Copy(&m, req)
 }
 
 type DictionaryGroupItem struct {
@@ -41,9 +46,9 @@ type DictionaryGroupItem struct {
 	Items       []KeyValue `json:"items,omitempty"`       // items
 }
 
-func (m *DictionaryGroupItem) ToProto() v1.DictionaryService {
-	var resp v1.DictionaryService
-	lo.Must0(copier.Copy(&resp, m))
+func (m *DictionaryGroupItem) ToProto() *v1.DictionaryItem {
+	var resp *v1.DictionaryItem
+	lo.Must0(copier.Copy(resp, m))
 	return resp
 }
 

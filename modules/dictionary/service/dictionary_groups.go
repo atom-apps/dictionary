@@ -44,12 +44,28 @@ func (svc *DictionaryGroupService) DecorateItem(model *models.DictionaryGroup, i
 	return dtoItem
 }
 
+func (svc *DictionaryGroupService) GetByID(ctx context.Context, id int64) (*models.DictionaryGroup, error) {
+	return svc.dictionaryGroupDao.GetByID(ctx, id)
+}
+
 func (svc *DictionaryGroupService) GetByTenantID(ctx context.Context, tenantID, id int64) (*models.DictionaryGroup, error) {
 	return svc.dictionaryGroupDao.GetByTenantID(ctx, tenantID, id)
 }
 
 func (svc *DictionaryGroupService) GetByUserID(ctx context.Context, tenantID, userID, id int64) (*models.DictionaryGroup, error) {
 	return svc.dictionaryGroupDao.GetByUserID(ctx, tenantID, userID, id)
+}
+
+func (svc *DictionaryGroupService) GetFromSlugByUserID(ctx context.Context, tenantID, userID int64, slug string) (*models.DictionaryGroup, error) {
+	return svc.dictionaryGroupDao.GetFromSlugByUserID(ctx, tenantID, userID, slug)
+}
+
+func (svc *DictionaryGroupService) GetFromSlugByTenantID(ctx context.Context, tenantID int64, slug string) (*models.DictionaryGroup, error) {
+	return svc.dictionaryGroupDao.GetFromSlugByTenantID(ctx, tenantID, slug)
+}
+
+func (svc *DictionaryGroupService) GetFromSlug(ctx context.Context, slug string) (*models.DictionaryGroup, error) {
+	return svc.dictionaryGroupDao.GetFromSlug(ctx, slug)
 }
 
 func (svc *DictionaryGroupService) FindByQueryFilter(
@@ -82,14 +98,16 @@ func (svc *DictionaryGroupService) Create(ctx context.Context, body *dto.Diction
 }
 
 // Update
-func (svc *DictionaryGroupService) Update(ctx context.Context, tenantID, id int64, body *dto.DictionaryGroupForm) error {
-	model, err := svc.GetByTenantID(ctx, tenantID, id)
+func (svc *DictionaryGroupService) Update(ctx context.Context, id int64, body *dto.DictionaryGroupForm) error {
+	model, err := svc.GetByID(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	_ = copier.Copy(model, body)
-	model.ID = id
+	model.Slug = body.Slug
+	model.Name = body.Name
+	model.Description = body.Description
+
 	return svc.dictionaryGroupDao.Update(ctx, model)
 }
 

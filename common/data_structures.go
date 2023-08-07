@@ -1,10 +1,18 @@
 package common
 
-import "strings"
+import (
+	"strings"
+
+	"golang.org/x/exp/constraints"
+)
 
 type SortQueryFilter struct {
 	Asc  *string `json:"asc" form:"asc"`
 	Desc *string `json:"desc" form:"desc"`
+}
+
+func NewSortQueryFilter() *SortQueryFilter {
+	return &SortQueryFilter{}
 }
 
 func (s *SortQueryFilter) AscFields() []string {
@@ -30,6 +38,13 @@ type PageDataResponse struct {
 type PageQueryFilter struct {
 	Page  int `json:"page" form:"page"`
 	Limit int `json:"limit" form:"limit"`
+}
+
+func NewPageQueryFilter[T constraints.Integer](page, limit T) *PageQueryFilter {
+	return &PageQueryFilter{
+		Page:  int(page),
+		Limit: int(limit),
+	}
 }
 
 func (filter *PageQueryFilter) Offset() int {

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"github.com/atom-apps/dictionary/common"
+	"github.com/atom-apps/dictionary/database/models"
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
 	"github.com/atom-apps/dictionary/modules/dictionary/service"
 	"github.com/atom-providers/jwt"
@@ -10,7 +11,7 @@ import (
 	"github.com/samber/lo"
 )
 
-// @provider
+//	@provider
 type DictionaryGroupController struct {
 	dictionaryGroupSvc *service.DictionaryGroupService
 }
@@ -30,31 +31,49 @@ func (c *DictionaryGroupController) Show(ctx *fiber.Ctx, id int64) (*dto.Diction
 	if !ok {
 		return nil, jwt.TokenInvalid
 	}
+	var item *models.DictionaryGroup
+	var err error
+	if claim.IsSuperAdmin() {
+		item, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), id)
+	} else if claim.IsTenantAdmin() {
+		item, err = c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), claim.TenantID, id)
+	} else {
+		item, err = c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, id)
+	}
 
-	item, err := c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), claim.TenantID, id)
 	if err != nil {
 		return nil, err
 	}
+
 	return c.dictionaryGroupSvc.DecorateItem(item, 0), nil
 }
 
-// Show by user id
+// Show by group slug
 //
-//	@Summary		get by user id
-//	@Description	get info by user id
+//	@Summary		get by slug
+//	@Description	get info by slug
 //	@Tags			Dictionary
 //	@Accept			json
 //	@Produce		json
-//	@Param			id	path		int	true	"DictionaryGroupID"
-//	@Success		200	{object}	dto.DictionaryGroupItem
-//	@Router			/dictionaries/{id}/user [get]
-func (c *DictionaryGroupController) ShowByUserID(ctx *fiber.Ctx, id int64) (*dto.DictionaryGroupItem, error) {
+//	@Param			slug	path		string	true	"DictionaryGroupSlug"
+//	@Success		200		{object}	dto.DictionaryGroupItem
+//	@Router			/dictionaries/slug/{slug} [get]
+func (c *DictionaryGroupController) ShowBySlug(ctx *fiber.Ctx, slug string) (*dto.DictionaryGroupItem, error) {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
 	if !ok {
 		return nil, jwt.TokenInvalid
 	}
 
-	item, err := c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, id)
+	var item *models.DictionaryGroup
+	var err error
+	if claim.IsSuperAdmin() {
+		item, err = c.dictionaryGroupSvc.GetFromSlug(ctx.Context(), slug)
+	} else if claim.IsTenantAdmin() {
+		item, err = c.dictionaryGroupSvc.GetFromSlugByTenantID(ctx.Context(), claim.TenantID, slug)
+	} else {
+		item, err = c.dictionaryGroupSvc.GetFromSlugByUserID(ctx.Context(), claim.TenantID, claim.UserID, slug)
+	}
+
 	if err != nil {
 		return nil, err
 	}
@@ -115,6 +134,7 @@ func (c *DictionaryGroupController) Create(ctx *fiber.Ctx, body *dto.DictionaryG
 	}
 	body.TenantID = claim.TenantID
 	body.UserID = claim.UserID
+
 	return c.dictionaryGroupSvc.Create(ctx.Context(), body)
 }
 
@@ -135,25 +155,8 @@ func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.D
 	if !ok {
 		return jwt.TokenInvalid
 	}
-	return c.dictionaryGroupSvc.Update(ctx.Context(), claim.TenantID, id, body)
-}
-
-// Update update by user id
-//
-//	@Summary		update by user id
-//	@Description	update by user id
-//	@Tags			Dictionary
-//	@Accept			json
-//	@Produce		json
-//	@Param			id		path		int						true	"DictionaryGroupID"
-//	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
-//	@Success		200		{string}	DictionaryGroupID
-//	@Failure		500		{string}	DictionaryGroupID
-//	@Router			/dictionaries/{id}/user [put]
-func (c *DictionaryGroupController) UpdateByUserID(ctx *fiber.Ctx, id int64, body *dto.DictionaryGroupForm) error {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
-	if !ok {
-		return jwt.TokenInvalid
+	if claim.IsAdmin() {
+		return c.dictionaryGroupSvc.Update(ctx.Context(), id, body)
 	}
 	return c.dictionaryGroupSvc.UpdateByUserID(ctx.Context(), claim.TenantID, claim.UserID, id, body)
 }
@@ -174,25 +177,11 @@ func (c *DictionaryGroupController) Delete(ctx *fiber.Ctx, id int64) error {
 	if !ok {
 		return jwt.TokenInvalid
 	}
-	return c.dictionaryGroupSvc.Delete(ctx.Context(), claim.TenantID, id)
-}
 
-// Delete delete by user id
-//
-//	@Summary		delete by user id
-//	@Description	delete by user id
-//	@Tags			Dictionary
-//	@Accept			json
-//	@Produce		json
-//	@Param			id	path		int	true	"DictionaryGroupID"
-//	@Success		200	{string}	DictionaryGroupID
-//	@Failure		500	{string}	DictionaryGroupID
-//	@Router			/dictionaries/{id}/user [delete]
-func (c *DictionaryGroupController) DeleteByUserID(ctx *fiber.Ctx, id int64) error {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
-	if !ok {
-		return jwt.TokenInvalid
+	if claim.IsSuperAdmin() {
+		return c.dictionaryGroupSvc.Delete(ctx.Context(), claim.TenantID, id)
 	}
+
 	return c.dictionaryGroupSvc.DeleteByUserID(ctx.Context(), claim.TenantID, claim.UserID, id)
 }
 

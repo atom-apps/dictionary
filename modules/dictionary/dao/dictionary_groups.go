@@ -117,6 +117,10 @@ func (dao *DictionaryGroupDao) IsIDBelongToTenant(ctx context.Context, tenantID,
 	return count > 0
 }
 
+func (dao *DictionaryGroupDao) GetByID(ctx context.Context, id int64) (*models.DictionaryGroup, error) {
+	return dao.Context(ctx).Where(dao.query.DictionaryGroup.ID.Eq(id)).First()
+}
+
 func (dao *DictionaryGroupDao) GetByTenantID(ctx context.Context, tenantID, id int64) (*models.DictionaryGroup, error) {
 	return dao.Context(ctx).Where(
 		dao.query.DictionaryGroup.ID.Eq(id),
@@ -129,6 +133,28 @@ func (dao *DictionaryGroupDao) GetByUserID(ctx context.Context, tenantID, userID
 		dao.query.DictionaryGroup.ID.Eq(id),
 		dao.query.DictionaryGroup.TenantID.Eq(tenantID),
 		dao.query.DictionaryGroup.UserID.Eq(userID),
+	).First()
+}
+
+// GetFromSlug
+func (dao *DictionaryGroupDao) GetFromSlug(ctx context.Context, slug string) (*models.DictionaryGroup, error) {
+	return dao.Context(ctx).Where(dao.query.DictionaryGroup.Slug.Eq(slug)).First()
+}
+
+// GetFromSlugByTenantID
+func (dao *DictionaryGroupDao) GetFromSlugByTenantID(ctx context.Context, tenantID int64, slug string) (*models.DictionaryGroup, error) {
+	return dao.Context(ctx).Where(
+		dao.query.DictionaryGroup.TenantID.Eq(tenantID),
+		dao.query.DictionaryGroup.Slug.Eq(slug),
+	).First()
+}
+
+// GetFromSlugByUserID
+func (dao *DictionaryGroupDao) GetFromSlugByUserID(ctx context.Context, tenantID, userID int64, slug string) (*models.DictionaryGroup, error) {
+	return dao.Context(ctx).Where(
+		dao.query.DictionaryGroup.TenantID.Eq(tenantID),
+		dao.query.DictionaryGroup.UserID.Eq(userID),
+		dao.query.DictionaryGroup.Slug.Eq(slug),
 	).First()
 }
 
