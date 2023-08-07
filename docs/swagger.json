@@ -20,12 +20,6 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "字典组描述",
-                        "name": "description",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
                         "description": "字典组名称",
                         "name": "name",
                         "in": "query"
@@ -33,18 +27,6 @@
                     {
                         "type": "string",
                         "name": "slug",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "租户ID",
-                        "name": "tenant_id",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "用户ID",
-                        "name": "user_id",
                         "in": "query"
                     },
                     {
@@ -98,7 +80,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Dictionary/put"
+                    "Dictionary"
                 ],
                 "summary": "create new item",
                 "parameters": [
@@ -132,7 +114,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "DEFAULT_TAG_NAME"
+                    "DictionaryGroupItem"
                 ],
                 "summary": "create new item",
                 "parameters": [
@@ -173,7 +155,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "DEFAULT_TAG_NAME"
+                    "DictionaryGroupItem"
                 ],
                 "summary": "get by id",
                 "parameters": [
@@ -210,7 +192,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "DEFAULT_TAG_NAME"
+                    "DictionaryGroupItem"
                 ],
                 "summary": "update by id",
                 "parameters": [
@@ -262,7 +244,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "DEFAULT_TAG_NAME"
+                    "DictionaryGroupItem"
                 ],
                 "summary": "delete by id",
                 "parameters": [
@@ -450,6 +432,11 @@
         },
         "/dictionaries/{id}/user": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "get info by user id",
                 "consumes": [
                     "application/json"
@@ -488,7 +475,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    ""
+                    "Dictionary"
                 ],
                 "summary": "update by user id",
                 "parameters": [
@@ -591,14 +578,6 @@
                 },
                 "slug": {
                     "type": "string"
-                },
-                "tenantID": {
-                    "description": "租户ID",
-                    "type": "integer"
-                },
-                "userID": {
-                    "description": "用户ID",
-                    "type": "integer"
                 }
             }
         },

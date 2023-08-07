@@ -10,7 +10,7 @@ import (
 	"github.com/samber/lo"
 )
 
-//	@provider
+// @provider
 type DictionaryGroupController struct {
 	dictionaryGroupSvc *service.DictionaryGroupService
 }
@@ -102,7 +102,7 @@ func (c *DictionaryGroupController) List(
 //
 //	@Summary		create new item
 //	@Description	create new item
-//	@Tags			Dictionary/put
+//	@Tags			Dictionary
 //	@Accept			json
 //	@Produce		json
 //	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
@@ -142,14 +142,14 @@ func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.D
 //
 //	@Summary		update by user id
 //	@Description	update by user id
-//	@Tags
-//	@Accept		json
-//	@Produce	json
-//	@Param		id		path		int						true	"DictionaryGroupID"
-//	@Param		body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
-//	@Success	200		{string}	DictionaryGroupID
-//	@Failure	500		{string}	DictionaryGroupID
-//	@Router		/dictionaries/{id}/user [put]
+//	@Tags			Dictionary
+//	@Accept			json
+//	@Produce		json
+//	@Param			id		path		int						true	"DictionaryGroupID"
+//	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
+//	@Success		200		{string}	DictionaryGroupID
+//	@Failure		500		{string}	DictionaryGroupID
+//	@Router			/dictionaries/{id}/user [put]
 func (c *DictionaryGroupController) UpdateByUserID(ctx *fiber.Ctx, id int64, body *dto.DictionaryGroupForm) error {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
 	if !ok {

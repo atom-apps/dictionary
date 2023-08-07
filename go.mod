@@ -3,12 +3,13 @@ module github.com/atom-apps/dictionary
 go 1.19
 
 require (
+	github.com/atom-apps/common v0.0.0-20230806085632-519221a09fe7
 	github.com/atom-providers/database-postgres v0.0.0-20230801062836-e1fae5b15d58
 	github.com/atom-providers/etcd v0.0.0-20230805063823-ff178febb8d6
 	github.com/atom-providers/jwt v0.0.0-20230806074857-2325e341c73e
 	github.com/atom-providers/log v0.0.0-20230805054420-343ad809890e
-	github.com/atom-providers/service-gomicro v0.0.0-20230805084608-db7e1439a24c
 	github.com/atom-providers/service-http v0.0.0-20230806075931-d82b61b86c44
+	github.com/atom-providers/swagger v0.0.0-20230801062947-5ad4735e505b
 	github.com/brianvoe/gofakeit/v6 v6.23.1
 	github.com/go-micro/plugins/v4/logger/zap v1.2.1
 	github.com/gofiber/fiber/v2 v2.48.0
@@ -17,10 +18,8 @@ require (
 	github.com/rogeecn/fen v1.0.6
 	github.com/rogeecn/gomicro-plugins/registry/etcd v0.0.0-20230805055516-49bc8cfdf9bd
 	github.com/samber/lo v1.38.1
-	github.com/spf13/cobra v1.7.0
 	go-micro.dev/v4 v4.10.2
 	go.etcd.io/etcd/client/v3 v3.5.9
-	go.uber.org/dig v1.17.0
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
 	gorm.io/gen v0.3.23
@@ -30,20 +29,22 @@ require (
 
 require (
 	dario.cat/mergo v1.0.0 // indirect
+	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230717121422-5aa5874ade95 // indirect
+	github.com/PuerkitoBio/purell v1.1.1 // indirect
+	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
 	github.com/acomagu/bufpipe v1.0.4 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/atom-providers/config v0.0.0-20230801062829-cc62086f736a // indirect
 	github.com/atom-providers/http-fiber v0.0.0-20230801062902-dd7466ac87eb // indirect
-	github.com/atom-providers/micro-gomicro v0.0.0-20230805084628-21724cb2afb2 // indirect
-	github.com/atom-providers/uuid v0.0.0-20230801062951-5331ee1b8af6 // indirect
 	github.com/bitly/go-simplejson v0.5.1 // indirect
 	github.com/cloudflare/circl v1.3.3 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
+	github.com/evanphx/json-patch v0.5.2 // indirect
 	github.com/evanphx/json-patch/v5 v5.6.0 // indirect
 	github.com/felixge/httpsnoop v1.0.3 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
@@ -51,9 +52,10 @@ require (
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
 	github.com/go-git/go-billy/v5 v5.4.1 // indirect
 	github.com/go-git/go-git/v5 v5.8.1 // indirect
-	github.com/go-gormigrate/gormigrate/v2 v2.1.0 // indirect
-	github.com/go-micro/plugins/v4/client/grpc v1.2.1 // indirect
-	github.com/go-micro/plugins/v4/server/grpc v1.2.0 // indirect
+	github.com/go-openapi/jsonpointer v0.19.5 // indirect
+	github.com/go-openapi/jsonreference v0.19.6 // indirect
+	github.com/go-openapi/spec v0.20.4 // indirect
+	github.com/go-openapi/swag v0.19.15 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator v9.31.0+incompatible // indirect
@@ -61,7 +63,6 @@ require (
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.2.1 // indirect
-	github.com/gofrs/uuid v4.4.0+incompatible // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
@@ -77,10 +78,12 @@ require (
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
+	github.com/mailru/easyjson v0.7.6 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
@@ -100,10 +103,14 @@ require (
 	github.com/skeema/knownhosts v1.2.0 // indirect
 	github.com/spf13/afero v1.9.5 // indirect
 	github.com/spf13/cast v1.5.1 // indirect
+	github.com/spf13/cobra v1.7.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.16.0 // indirect
 	github.com/subosito/gotenv v1.4.2 // indirect
+	github.com/swaggo/fiber-swagger v1.3.0 // indirect
+	github.com/swaggo/files v0.0.0-20220610200504-28940afbdbfe // indirect
+	github.com/swaggo/swag v1.16.1 // indirect
 	github.com/urfave/cli/v2 v2.25.7 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.48.0 // indirect
@@ -112,6 +119,7 @@ require (
 	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.9 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.9 // indirect
+	go.uber.org/dig v1.17.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.25.0 // indirect
 	golang.org/x/crypto v0.12.0 // indirect
@@ -128,6 +136,7 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/datatypes v1.2.0 // indirect
 	gorm.io/driver/mysql v1.5.1 // indirect

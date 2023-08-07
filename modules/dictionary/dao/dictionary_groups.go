@@ -60,9 +60,6 @@ func (dao *DictionaryGroupDao) decorateQueryFilter(query query.IDictionaryGroupD
 	if queryFilter.Slug != nil {
 		query = query.Where(dao.query.DictionaryGroup.Slug.Eq(*queryFilter.Slug))
 	}
-	if queryFilter.Description != nil {
-		query = query.Where(dao.query.DictionaryGroup.Description.Eq(*queryFilter.Description))
-	}
 
 	return query
 }

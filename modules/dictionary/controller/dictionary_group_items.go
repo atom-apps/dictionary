@@ -18,7 +18,7 @@ type DictionaryGroupItemController struct {
 //
 //	@Summary		get by id
 //	@Description	get info by id
-//	@Tags			DEFAULT_TAG_NAME
+//	@Tags			DictionaryGroupItem
 //	@Accept			json
 //	@Produce		json
 //	@Param			dictionaryId	path		int	true	"DictionaryId"
@@ -47,7 +47,7 @@ func (c *DictionaryGroupItemController) Show(ctx *fiber.Ctx, dictionaryId, id in
 //
 //	@Summary		create new item
 //	@Description	create new item
-//	@Tags			DEFAULT_TAG_NAME
+//	@Tags			DictionaryGroupItem
 //	@Accept			json
 //	@Produce		json
 //	@Param			dictionaryId	path		int							true	"DictionaryId"
@@ -71,7 +71,7 @@ func (c *DictionaryGroupItemController) Create(ctx *fiber.Ctx, dictionaryId int6
 //
 //	@Summary		update by id
 //	@Description	update by id
-//	@Tags			DEFAULT_TAG_NAME
+//	@Tags			DictionaryGroupItem
 //	@Accept			json
 //	@Produce		json
 //	@Param			dictionaryId	path		int							true	"DictionaryId"
@@ -97,7 +97,7 @@ func (c *DictionaryGroupItemController) Update(ctx *fiber.Ctx, dictionaryId, id 
 //
 //	@Summary		delete by id
 //	@Description	delete by id
-//	@Tags			DEFAULT_TAG_NAME
+//	@Tags			DictionaryGroupItem
 //	@Accept			json
 //	@Produce		json
 //	@Param			dictionaryId	path		int	true	"DictionaryId"

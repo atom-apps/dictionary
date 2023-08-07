@@ -9,10 +9,10 @@ Host = "10.58.144.6"
 Port = 30432
 
 [Swagger]
-BaseRoute = "doc"
+BaseRoute = "docs"
 Title = "Api"
 Description = "Api Docs"
-BasePath = "/v1"
+BasePath = ""
 Version = "1.0.0"
 
 [GoMicro]

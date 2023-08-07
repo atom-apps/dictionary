@@ -10,6 +10,10 @@ import (
 
 func httpMiddlewareJWT(j *jwt.JWT) func(ctx *fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
+		if strings.HasPrefix(ctx.Path(), "/docs/") {
+			return ctx.Next()
+		}
+
 		token, ok := ctx.GetReqHeaders()[jwt.HttpHeader]
 		if !ok {
 			return ctx.SendStatus(fiber.StatusUnauthorized)

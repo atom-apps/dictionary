@@ -9,19 +9,19 @@ import (
 )
 
 type DictionaryGroupForm struct {
-	UserID      int64  // 用户ID
-	TenantID    int64  // 租户ID
+	UserID      int64  `swaggerignore:"true"`                            // 用户ID
+	TenantID    int64  `swaggerignore:"true"`                            // 租户ID
 	Name        string `form:"name" json:"name,omitempty"`               // 字典组名称
 	Slug        string `form:"slug" json:"slug,omitempty"`               //
 	Description string `form:"description" json:"description,omitempty"` // 字典组描述
 }
 
 type DictionaryGroupListQueryFilter struct {
-	TenantID    int64   `query:"tenant_id" json:"tenant_id,omitempty"`     // 租户ID
-	UserID      int64   `query:"user_id" json:"user_id,omitempty"`         // 用户ID
-	Name        *string `query:"name" json:"name,omitempty"`               // 字典组名称
-	Slug        *string `query:"slug" json:"slug,omitempty"`               //
-	Description *string `query:"description" json:"description,omitempty"` // 字典组描述
+	TenantID int64 `json:"tenant_id,omitempty" swaggerignore:"true"` // 租户ID
+	UserID   int64 `json:"user_id,omitempty" swaggerignore:"true"`   // 用户ID
+
+	Name *string `query:"name" json:"name,omitempty"` // 字典组名称
+	Slug *string `query:"slug" json:"slug,omitempty"` //
 }
 
 // FromProto

@@ -11,6 +11,7 @@ import (
 	databasePostgres "github.com/atom-providers/database-postgres"
 	"github.com/atom-providers/etcd"
 	"github.com/atom-providers/log"
+	"github.com/atom-providers/swagger"
 
 	// serviceGoMicro "github.com/atom-providers/service-gomicro"
 	"github.com/atom-providers/jwt"
@@ -21,6 +22,7 @@ import (
 func main() {
 	providers := serviceHttp.
 		Default(
+			swagger.DefaultProvider(),
 			jwt.DefaultProvider(),
 			query.DefaultProvider(),
 			etcd.DefaultProvider(),
