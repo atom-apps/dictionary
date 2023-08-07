@@ -10,7 +10,7 @@ import (
 	"github.com/samber/lo"
 )
 
-// @provider
+//	@provider
 type DictionaryGroupController struct {
 	dictionaryGroupSvc *service.DictionaryGroupService
 }
@@ -69,8 +69,8 @@ func (c *DictionaryGroupController) ShowByUserID(ctx *fiber.Ctx, id int64) (*dto
 //	@Accept			json
 //	@Produce		json
 //	@Param			queryFilter	query		dto.DictionaryGroupListQueryFilter	true	"DictionaryGroupListQueryFilter"
-//	@Param			pageFilter	query		common.PageQueryFilter	true	"PageQueryFilter"
-//	@Param			sortFilter	query		common.SortQueryFilter	true	"SortQueryFilter"
+//	@Param			pageFilter	query		common.PageQueryFilter				true	"PageQueryFilter"
+//	@Param			sortFilter	query		common.SortQueryFilter				true	"SortQueryFilter"
 //	@Success		200			{object}	common.PageDataResponse{list=dto.DictionaryGroupItem}
 //	@Router			/dictionaries [get]
 func (c *DictionaryGroupController) List(
@@ -125,7 +125,7 @@ func (c *DictionaryGroupController) Create(ctx *fiber.Ctx, body *dto.DictionaryG
 //	@Tags			Dictionary
 //	@Accept			json
 //	@Produce		json
-//	@Param			id		path		int				true	"DictionaryGroupID"
+//	@Param			id		path		int						true	"DictionaryGroupID"
 //	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
 //	@Success		200		{string}	DictionaryGroupID
 //	@Failure		500		{string}	DictionaryGroupID
@@ -143,13 +143,13 @@ func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.D
 //	@Summary		update by user id
 //	@Description	update by user id
 //	@Tags
-//	@Accept			json
-//	@Produce		json
-//	@Param			id		path		int				true	"DictionaryGroupID"
-//	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
-//	@Success		200		{string}	DictionaryGroupID
-//	@Failure		500		{string}	DictionaryGroupID
-//	@Router			/dictionaries/{id}/user [put]
+//	@Accept		json
+//	@Produce	json
+//	@Param		id		path		int						true	"DictionaryGroupID"
+//	@Param		body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
+//	@Success	200		{string}	DictionaryGroupID
+//	@Failure	500		{string}	DictionaryGroupID
+//	@Router		/dictionaries/{id}/user [put]
 func (c *DictionaryGroupController) UpdateByUserID(ctx *fiber.Ctx, id int64, body *dto.DictionaryGroupForm) error {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
 	if !ok {

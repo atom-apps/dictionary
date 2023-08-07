@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// @provider
+//	@provider
 type DictionaryGroupItemController struct {
 	dictionaryGroupSvc     *service.DictionaryGroupService
 	dictionaryGroupItemSvc *service.DictionaryGroupItemService
@@ -22,8 +22,8 @@ type DictionaryGroupItemController struct {
 //	@Accept			json
 //	@Produce		json
 //	@Param			dictionaryId	path		int	true	"DictionaryId"
-//	@Param			id	path		int	true	"DictionaryGroupItemID"
-//	@Success		200	{object}	dto.DictionaryGroupItemItem
+//	@Param			id				path		int	true	"DictionaryGroupItemID"
+//	@Success		200				{object}	dto.DictionaryGroupItemItem
 //	@Router			/dictionaries/{dictionary_id}/items/{id} [get]
 func (c *DictionaryGroupItemController) Show(ctx *fiber.Ctx, dictionaryId, id int64) (*dto.DictionaryGroupItemItem, error) {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
@@ -50,9 +50,9 @@ func (c *DictionaryGroupItemController) Show(ctx *fiber.Ctx, dictionaryId, id in
 //	@Tags			DEFAULT_TAG_NAME
 //	@Accept			json
 //	@Produce		json
-//	@Param			dictionaryId	path		int	true	"DictionaryId"
-//	@Param			body	body		dto.DictionaryGroupItemForm	true	"DictionaryGroupItemForm"
-//	@Success		200		{string}	DictionaryGroupItemID
+//	@Param			dictionaryId	path		int							true	"DictionaryId"
+//	@Param			body			body		dto.DictionaryGroupItemForm	true	"DictionaryGroupItemForm"
+//	@Success		200				{string}	DictionaryGroupItemID
 //	@Router			/dictionaries/{dictionary_id}/items [post]
 func (c *DictionaryGroupItemController) Create(ctx *fiber.Ctx, dictionaryId int64, body *dto.DictionaryGroupItemForm) error {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
@@ -74,11 +74,11 @@ func (c *DictionaryGroupItemController) Create(ctx *fiber.Ctx, dictionaryId int6
 //	@Tags			DEFAULT_TAG_NAME
 //	@Accept			json
 //	@Produce		json
-//	@Param			dictionaryId	path		int	true	"DictionaryId"
-//	@Param			id		path		int				true	"DictionaryGroupItemID"
-//	@Param			body	body		dto.DictionaryGroupItemForm	true	"DictionaryGroupItemForm"
-//	@Success		200		{string}	DictionaryGroupItemID
-//	@Failure		500		{string}	DictionaryGroupItemID
+//	@Param			dictionaryId	path		int							true	"DictionaryId"
+//	@Param			id				path		int							true	"DictionaryGroupItemID"
+//	@Param			body			body		dto.DictionaryGroupItemForm	true	"DictionaryGroupItemForm"
+//	@Success		200				{string}	DictionaryGroupItemID
+//	@Failure		500				{string}	DictionaryGroupItemID
 //	@Router			/dictionaries/{dictionary_id}/items/{id} [put]
 func (c *DictionaryGroupItemController) Update(ctx *fiber.Ctx, dictionaryId, id int64, body *dto.DictionaryGroupItemForm) error {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
@@ -101,9 +101,9 @@ func (c *DictionaryGroupItemController) Update(ctx *fiber.Ctx, dictionaryId, id 
 //	@Accept			json
 //	@Produce		json
 //	@Param			dictionaryId	path		int	true	"DictionaryId"
-//	@Param			id	path		int	true	"DictionaryGroupItemID"
-//	@Success		200	{string}	DictionaryGroupItemID
-//	@Failure		500	{string}	DictionaryGroupItemID
+//	@Param			id				path		int	true	"DictionaryGroupItemID"
+//	@Success		200				{string}	DictionaryGroupItemID
+//	@Failure		500				{string}	DictionaryGroupItemID
 //	@Router			/dictionaries/{dictionary_id}/items/{id} [delete]
 func (c *DictionaryGroupItemController) Delete(ctx *fiber.Ctx, dictionaryId, id int64) error {
 	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)

@@ -1,1 +1,694 @@
-{}
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/dictionaries": {
+            "get": {
+                "description": "list by query filter",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "list by query filter",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "字典组描述",
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "字典组名称",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "slug",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "租户ID",
+                        "name": "tenant_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "用户ID",
+                        "name": "user_id",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "asc",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "desc",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/common.PageDataResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "list": {
+                                            "$ref": "#/definitions/dto.DictionaryGroupItem"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create new item",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary/put"
+                ],
+                "summary": "create new item",
+                "parameters": [
+                    {
+                        "description": "DictionaryGroupForm",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/dictionaries/{dictionary_id}/items": {
+            "post": {
+                "description": "create new item",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DEFAULT_TAG_NAME"
+                ],
+                "summary": "create new item",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryId",
+                        "name": "dictionaryId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "DictionaryGroupItemForm",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupItemForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/dictionaries/{dictionary_id}/items/{id}": {
+            "get": {
+                "description": "get info by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DEFAULT_TAG_NAME"
+                ],
+                "summary": "get by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryId",
+                        "name": "dictionaryId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupItemID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupItemItem"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DEFAULT_TAG_NAME"
+                ],
+                "summary": "update by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryId",
+                        "name": "dictionaryId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupItemID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "DictionaryGroupItemForm",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupItemForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "DEFAULT_TAG_NAME"
+                ],
+                "summary": "delete by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryId",
+                        "name": "dictionaryId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupItemID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/dictionaries/{id}": {
+            "get": {
+                "description": "get info by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "get by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupItem"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "update by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "DictionaryGroupForm",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "delete by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/dictionaries/{id}/share": {
+            "put": {
+                "description": "share by user id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "share by user id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/dictionaries/{id}/user": {
+            "get": {
+                "description": "get info by user id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "get by user id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupItem"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update by user id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    ""
+                ],
+                "summary": "update by user id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "DictionaryGroupForm",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DictionaryGroupForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "delete by user id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Dictionary"
+                ],
+                "summary": "delete by user id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "DictionaryGroupID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "common.PageDataResponse": {
+            "type": "object",
+            "properties": {
+                "items": {},
+                "limit": {
+                    "type": "integer"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.DictionaryGroupForm": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "字典组描述",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "字典组名称",
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tenantID": {
+                    "description": "租户ID",
+                    "type": "integer"
+                },
+                "userID": {
+                    "description": "用户ID",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.DictionaryGroupItem": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "description": {
+                    "description": "字典组描述",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "items": {
+                    "description": "items",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.KeyValue"
+                    }
+                },
+                "name": {
+                    "description": "字典组名称",
+                    "type": "string"
+                },
+                "slug": {
+                    "type": "string"
+                },
+                "tenant_id": {
+                    "description": "租户ID",
+                    "type": "integer"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "用户ID",
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.DictionaryGroupItemForm": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "description": "字典项键",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "排序",
+                    "type": "integer"
+                },
+                "value": {
+                    "description": "字典项值",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.DictionaryGroupItemItem": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "key": {
+                    "description": "字典项键",
+                    "type": "string"
+                },
+                "order": {
+                    "description": "排序",
+                    "type": "integer"
+                },
+                "value": {
+                    "description": "字典项值",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.KeyValue": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "integer"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

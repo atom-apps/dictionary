@@ -12,7 +12,7 @@ import (
 	"github.com/jinzhu/copier"
 )
 
-// @provider
+//	@provider
 type DictionaryGroupItemService struct {
 	dictionaryGroupItemDao *dao.DictionaryGroupItemDao
 }

@@ -11,7 +11,7 @@ import (
 
 var _ v1.DictionaryServiceHandler = (*DictionaryService)(nil)
 
-// @provider
+//	@provider
 type DictionaryService struct {
 	micro contracts.MicroService
 	Name  string `inject:"false"`
