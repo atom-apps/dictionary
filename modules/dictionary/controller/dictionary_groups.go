@@ -1,19 +1,35 @@
 package controller
 
 import (
+	authv1 "github.com/atom-apps/auth/proto/v1"
+	"github.com/atom-apps/common/consts"
+	"github.com/atom-apps/common/errorx"
 	"github.com/atom-apps/dictionary/common"
 	"github.com/atom-apps/dictionary/database/models"
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
 	"github.com/atom-apps/dictionary/modules/dictionary/service"
-	"github.com/atom-providers/jwt"
+	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
+	"github.com/rogeecn/atom/contracts"
+	"go-micro.dev/v4"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
 )
 
-//	@provider
+// @provider
 type DictionaryGroupController struct {
+	micro contracts.MicroService
+
+	authSvc authv1.UserService `inject:"false"`
+
 	dictionaryGroupSvc *service.DictionaryGroupService
+}
+
+func (c *DictionaryGroupController) Prepare() error {
+	microService := c.micro.GetEngine().(micro.Service)
+
+	c.authSvc = authv1.NewUserService(consts.AppAuth.String(), microService.Client())
+	return nil
 }
 
 // Show get single item info
@@ -27,18 +43,25 @@ type DictionaryGroupController struct {
 //	@Success		200	{object}	dto.DictionaryGroupItem
 //	@Router			/dictionaries/{id} [get]
 func (c *DictionaryGroupController) Show(ctx *fiber.Ctx, id int64) (*dto.DictionaryGroupItem, error) {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
+	claim, ok := ctx.Locals(consts.JwtCtx).(*casdoorsdk.Claims)
 	if !ok {
-		return nil, jwt.TokenInvalid
+		return nil, errorx.ErrTokenInvalid
 	}
+
+	userMapping, err := c.authSvc.GetMapping(ctx.Context(), &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return nil, err
+	}
+
 	var item *models.DictionaryGroup
-	var err error
-	if claim.IsSuperAdmin() {
+	if claim.IsAdmin {
 		item, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), id)
-	} else if claim.IsTenantAdmin() {
-		item, err = c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), claim.TenantID, id)
+	} else if userMapping.IsTenantAdmin {
+		item, err = c.dictionaryGroupSvc.GetByTenantID(ctx.Context(), userMapping.TenantId, id)
 	} else {
-		item, err = c.dictionaryGroupSvc.GetByUserID(ctx.Context(), claim.TenantID, claim.UserID, id)
+		item, err = c.dictionaryGroupSvc.GetByUserID(ctx.Context(), userMapping.TenantId, userMapping.Id, id)
 	}
 
 	if err != nil {
@@ -59,19 +82,25 @@ func (c *DictionaryGroupController) Show(ctx *fiber.Ctx, id int64) (*dto.Diction
 //	@Success		200		{object}	dto.DictionaryGroupItem
 //	@Router			/dictionaries/slug/{slug} [get]
 func (c *DictionaryGroupController) ShowBySlug(ctx *fiber.Ctx, slug string) (*dto.DictionaryGroupItem, error) {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
+	claim, ok := ctx.Locals(consts.JwtCtx).(*casdoorsdk.Claims)
 	if !ok {
-		return nil, jwt.TokenInvalid
+		return nil, errorx.ErrTokenInvalid
+	}
+
+	userMapping, err := c.authSvc.GetMapping(ctx.Context(), &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return nil, err
 	}
 
 	var item *models.DictionaryGroup
-	var err error
-	if claim.IsSuperAdmin() {
+	if claim.IsAdmin {
 		item, err = c.dictionaryGroupSvc.GetFromSlug(ctx.Context(), slug)
-	} else if claim.IsTenantAdmin() {
-		item, err = c.dictionaryGroupSvc.GetFromSlugByTenantID(ctx.Context(), claim.TenantID, slug)
+	} else if userMapping.IsTenantAdmin {
+		item, err = c.dictionaryGroupSvc.GetFromSlugByTenantID(ctx.Context(), userMapping.TenantId, slug)
 	} else {
-		item, err = c.dictionaryGroupSvc.GetFromSlugByUserID(ctx.Context(), claim.TenantID, claim.UserID, slug)
+		item, err = c.dictionaryGroupSvc.GetFromSlugByUserID(ctx.Context(), userMapping.TenantId, userMapping.Id, slug)
 	}
 
 	if err != nil {
@@ -98,12 +127,20 @@ func (c *DictionaryGroupController) List(
 	pageFilter *common.PageQueryFilter,
 	sortFilter *common.SortQueryFilter,
 ) (*common.PageDataResponse, error) {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
+	claim, ok := ctx.Locals(consts.JwtCtx).(*casdoorsdk.Claims)
 	if !ok {
-		return nil, jwt.TokenInvalid
+		return nil, errorx.ErrTokenInvalid
 	}
-	queryFilter.TenantID = claim.TenantID
-	queryFilter.UserID = claim.UserID
+
+	userMapping, err := c.authSvc.GetMapping(ctx.Context(), &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	queryFilter.TenantID = userMapping.TenantId
+	queryFilter.UserID = userMapping.Id
 
 	items, total, err := c.dictionaryGroupSvc.PageByQueryFilter(ctx.Context(), queryFilter, pageFilter, sortFilter)
 	if err != nil {
@@ -128,12 +165,20 @@ func (c *DictionaryGroupController) List(
 //	@Success		200		{string}	DictionaryGroupID
 //	@Router			/dictionaries [post]
 func (c *DictionaryGroupController) Create(ctx *fiber.Ctx, body *dto.DictionaryGroupForm) error {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
+	claim, ok := ctx.Locals(consts.JwtCtx).(*casdoorsdk.Claims)
 	if !ok {
-		return jwt.TokenInvalid
+		return errorx.ErrTokenInvalid
 	}
-	body.TenantID = claim.TenantID
-	body.UserID = claim.UserID
+
+	userMapping, err := c.authSvc.GetMapping(ctx.Context(), &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	body.TenantID = userMapping.TenantId
+	body.UserID = userMapping.Id
 
 	return c.dictionaryGroupSvc.Create(ctx.Context(), body)
 }
@@ -151,14 +196,22 @@ func (c *DictionaryGroupController) Create(ctx *fiber.Ctx, body *dto.DictionaryG
 //	@Failure		500		{string}	DictionaryGroupID
 //	@Router			/dictionaries/{id} [put]
 func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.DictionaryGroupForm) error {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
+	claim, ok := ctx.Locals(consts.JwtCtx).(*casdoorsdk.Claims)
 	if !ok {
-		return jwt.TokenInvalid
+		return errorx.ErrTokenInvalid
 	}
-	if claim.IsAdmin() {
+
+	userMapping, err := c.authSvc.GetMapping(ctx.Context(), &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	if claim.IsAdmin {
 		return c.dictionaryGroupSvc.Update(ctx.Context(), id, body)
 	}
-	return c.dictionaryGroupSvc.UpdateByUserID(ctx.Context(), claim.TenantID, claim.UserID, id, body)
+	return c.dictionaryGroupSvc.UpdateByUserID(ctx.Context(), userMapping.TenantId, userMapping.Id, id, body)
 }
 
 // Delete delete by id
@@ -173,16 +226,23 @@ func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.D
 //	@Failure		500	{string}	DictionaryGroupID
 //	@Router			/dictionaries/{id} [delete]
 func (c *DictionaryGroupController) Delete(ctx *fiber.Ctx, id int64) error {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
+	claim, ok := ctx.Locals(consts.JwtCtx).(*casdoorsdk.Claims)
 	if !ok {
-		return jwt.TokenInvalid
+		return errorx.ErrTokenInvalid
 	}
 
-	if claim.IsSuperAdmin() {
-		return c.dictionaryGroupSvc.Delete(ctx.Context(), claim.TenantID, id)
+	userMapping, err := c.authSvc.GetMapping(ctx.Context(), &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
 	}
 
-	return c.dictionaryGroupSvc.DeleteByUserID(ctx.Context(), claim.TenantID, claim.UserID, id)
+	if claim.IsAdmin {
+		return c.dictionaryGroupSvc.Delete(ctx.Context(), userMapping.TenantId, id)
+	}
+
+	return c.dictionaryGroupSvc.DeleteByUserID(ctx.Context(), userMapping.TenantId, userMapping.Id, id)
 }
 
 // Share share by id
@@ -197,9 +257,17 @@ func (c *DictionaryGroupController) Delete(ctx *fiber.Ctx, id int64) error {
 //	@Failure		500	{string}	DictionaryGroupID
 //	@Router			/dictionaries/{id}/share [put]
 func (c *DictionaryGroupController) Share(ctx *fiber.Ctx, id int64) error {
-	claim, ok := ctx.Locals(jwt.CtxKey).(*jwt.Claims)
+	claim, ok := ctx.Locals(consts.JwtCtx).(*casdoorsdk.Claims)
 	if !ok {
-		return jwt.TokenInvalid
+		return errorx.ErrTokenInvalid
 	}
-	return c.dictionaryGroupSvc.ShareByID(ctx.Context(), claim.TenantID, claim.UserID, id)
+
+	userMapping, err := c.authSvc.GetMapping(ctx.Context(), &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	return c.dictionaryGroupSvc.ShareByID(ctx.Context(), userMapping.TenantId, userMapping.Id, id)
 }

@@ -8,11 +8,12 @@ import (
 	"github.com/atom-apps/dictionary/handlers"
 	"github.com/atom-apps/dictionary/modules/boot"
 	modulesDictionary "github.com/atom-apps/dictionary/modules/dictionary"
+	"github.com/atom-providers/casdoor"
 	databasePostgres "github.com/atom-providers/database-postgres"
 	"github.com/atom-providers/log"
 
 	// serviceGoMicro "github.com/atom-providers/service-gomicro"
-	"github.com/atom-providers/jwt"
+
 	serviceHttp "github.com/atom-providers/service-http"
 	"github.com/rogeecn/atom"
 )
@@ -20,7 +21,7 @@ import (
 func main() {
 	providers := serviceHttp.
 		Default(
-			jwt.DefaultProvider(),
+			casdoor.DefaultProvider(),
 			query.DefaultProvider(),
 			databasePostgres.DefaultProvider(),
 		).

@@ -1,7 +1,7 @@
 package boot
 
 import (
-	"github.com/atom-providers/jwt"
+	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
 	"github.com/gofiber/fiber/v2"
 	"github.com/rogeecn/atom"
 	"github.com/rogeecn/atom/container"
@@ -43,10 +43,10 @@ func Providers() container.Providers {
 
 func provideHttpMiddleware(opts ...opt.Option) error {
 	return container.Container.Provide(
-		func(httpsvc contracts.HttpService, jwt *jwt.JWT) contracts.Initial {
+		func(httpsvc contracts.HttpService, door *casdoorsdk.Client) contracts.Initial {
 			engine := httpsvc.GetEngine().(*fiber.App)
 
-			engine.Use(httpMiddlewareJWT(jwt))
+			engine.Use(httpMiddlewareJWT(door))
 			return nil
 		}, atom.GroupInitial)
 }

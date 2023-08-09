@@ -2,42 +2,35 @@ package boot
 
 import (
 	"strings"
-	"time"
 
-	"github.com/atom-providers/jwt"
+	"github.com/atom-apps/common/consts"
+	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
 	"github.com/gofiber/fiber/v2"
 )
 
-func httpMiddlewareJWT(j *jwt.JWT) func(ctx *fiber.Ctx) error {
+func httpMiddlewareJWT(door *casdoorsdk.Client) func(ctx *fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
 		if strings.HasPrefix(ctx.Path(), "/docs/") {
 			return ctx.Next()
 		}
 
-		token, ok := ctx.GetReqHeaders()[jwt.HttpHeader]
+		token, ok := ctx.GetReqHeaders()[consts.JwtHttpHeader.String()]
 		if !ok {
 			return ctx.SendStatus(fiber.StatusUnauthorized)
 		}
 
-		if !strings.HasPrefix(token, jwt.TokenPrefix) {
+		if !strings.HasPrefix(token, consts.JwtTokenPrefix.String()) {
 			return ctx.SendStatus(fiber.StatusUnauthorized)
 		}
 
-		token = token[len(jwt.TokenPrefix):]
+		token = strings.TrimSpace(token[len(consts.JwtTokenPrefix.String()):])
 
-		claims, err := j.ParseToken(token)
+		claims, err := door.ParseJwtToken(token)
 		if err != nil {
 			return ctx.SendStatus(fiber.StatusUnauthorized)
 		}
-		ctx.Locals(jwt.CtxKey, claims)
+		ctx.Locals(consts.JwtCtx, claims)
 
-		// 10 分钟过期前需要交换新token回前端
-		if time.Now().Add(time.Minute * 10).After(claims.ExpiresAt.Time) {
-			newToken, err := j.CreateTokenByOldToken(token, claims)
-			if err == nil {
-				ctx.Response().Header.Set("Authorization", newToken)
-			}
-		}
 		return ctx.Next()
 	}
 }

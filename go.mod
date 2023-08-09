@@ -3,12 +3,15 @@ module github.com/atom-apps/dictionary
 go 1.19
 
 require (
-	github.com/atom-apps/common v0.0.0-20230806085632-519221a09fe7
+	github.com/atom-apps/auth v0.0.0-20230809072138-abfa2872306e
+	github.com/atom-apps/common v0.0.0-20230808121137-61a5b40c4183
+	github.com/atom-providers/casdoor v0.0.0-20230801062821-4602c280953c
 	github.com/atom-providers/database-postgres v0.0.0-20230801062836-e1fae5b15d58
 	github.com/atom-providers/jwt v0.0.0-20230807083334-ca95f630467c
 	github.com/atom-providers/log v0.0.0-20230805054420-343ad809890e
 	github.com/atom-providers/service-http v0.0.0-20230806075931-d82b61b86c44
 	github.com/brianvoe/gofakeit/v6 v6.23.1
+	github.com/casdoor/casdoor-go-sdk v0.28.1
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/jinzhu/copier v0.3.5
 	github.com/rogeecn/atom v1.0.8
@@ -29,6 +32,7 @@ require (
 	github.com/ProtonMail/go-crypto v0.0.0-20230717121422-5aa5874ade95 // indirect
 	github.com/acomagu/bufpipe v1.0.4 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
+	github.com/atom-providers/cert v0.0.0-20230801062825-620b1481fef1 // indirect
 	github.com/atom-providers/config v0.0.0-20230801062829-cc62086f736a // indirect
 	github.com/atom-providers/http-fiber v0.0.0-20230801062902-dd7466ac87eb // indirect
 	github.com/bitly/go-simplejson v0.5.1 // indirect
@@ -102,10 +106,12 @@ require (
 	golang.org/x/crypto v0.12.0 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.14.0 // indirect
+	golang.org/x/oauth2 v0.9.0 // indirect
 	golang.org/x/sync v0.3.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/tools v0.11.1 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230803162519-f966b187b2e5 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect

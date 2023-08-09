@@ -3,11 +3,13 @@ package dictionaries
 import (
 	"context"
 
+	authv1 "github.com/atom-apps/auth/proto/v1"
+	"github.com/atom-apps/common/consts"
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
 	"github.com/atom-apps/dictionary/modules/dictionary/service"
 	v1 "github.com/atom-apps/dictionary/proto/v1"
-	"github.com/atom-providers/jwt"
 	"github.com/atom-providers/log"
+	"github.com/casdoor/casdoor-go-sdk/casdoorsdk"
 	"github.com/rogeecn/atom/contracts"
 	"go-micro.dev/v4"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -15,34 +17,48 @@ import (
 
 var _ v1.DictionaryItemServiceHandler = (*DictionaryItemService)(nil)
 
-//	@provider
+// @provider
 type DictionaryItemService struct {
 	*Common
+
 	micro                  contracts.MicroService
-	jwt                    *jwt.JWT
+	door                   *casdoorsdk.Client
 	dictionaryGroupSvc     *service.DictionaryGroupService
 	dictionaryGroupItemSvc *service.DictionaryGroupItemService
-	Name                   string `inject:"false"`
+
+	authSvc authv1.UserService `inject:"false"`
 }
 
 func (svc *DictionaryItemService) Prepare() error {
 	log.Info("register: DictionaryItemService")
-	return v1.RegisterDictionaryItemServiceHandler(svc.micro.GetEngine().(micro.Service).Server(), svc)
+
+	microService := svc.micro.GetEngine().(micro.Service)
+
+	svc.authSvc = authv1.NewUserService(consts.AppAuth.String(), microService.Client())
+
+	return v1.RegisterDictionaryItemServiceHandler(microService.Server(), svc)
 }
 
 // Create implements v1.DictionaryItemServiceHandler.
 func (svc *DictionaryItemService) Create(ctx context.Context, in *v1.DictionaryItemCreateRequest, out *emptypb.Empty) error {
-	claim, err := svc.Claim(ctx, svc.jwt)
+	claim, err := svc.Claim(ctx, svc.door)
 	if err != nil {
 		return err
 	}
 
-	if claim.IsAdmin() {
+	userMapping, err := svc.authSvc.GetMapping(ctx, &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	if claim.IsAdmin {
 		_, err = svc.dictionaryGroupSvc.GetByID(ctx, in.GroupId)
-	} else if claim.IsTenantAdmin() {
-		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, claim.TenantID, in.GroupId)
+	} else if userMapping.IsTenantAdmin {
+		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, userMapping.TenantId, in.GroupId)
 	} else {
-		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, claim.TenantID, claim.UserID, in.GroupId)
+		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, userMapping.TenantId, userMapping.Id, in.GroupId)
 	}
 	if err != nil {
 		return err
@@ -56,17 +72,24 @@ func (svc *DictionaryItemService) Create(ctx context.Context, in *v1.DictionaryI
 
 // Delete implements v1.DictionaryItemServiceHandler.
 func (svc *DictionaryItemService) Delete(ctx context.Context, in *v1.DictionaryItemDeleteRequest, out *emptypb.Empty) error {
-	claim, err := svc.Claim(ctx, svc.jwt)
+	claim, err := svc.Claim(ctx, svc.door)
 	if err != nil {
 		return err
 	}
 
-	if claim.IsAdmin() {
+	userMapping, err := svc.authSvc.GetMapping(ctx, &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	if claim.IsAdmin {
 		_, err = svc.dictionaryGroupSvc.GetByID(ctx, in.GroupId)
-	} else if claim.IsTenantAdmin() {
-		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, claim.TenantID, in.GroupId)
+	} else if userMapping.IsTenantAdmin {
+		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, userMapping.TenantId, in.GroupId)
 	} else {
-		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, claim.TenantID, claim.UserID, in.GroupId)
+		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, userMapping.TenantId, userMapping.Id, in.GroupId)
 	}
 	if err != nil {
 		return err
@@ -77,17 +100,24 @@ func (svc *DictionaryItemService) Delete(ctx context.Context, in *v1.DictionaryI
 
 // Show implements v1.DictionaryItemServiceHandler.
 func (svc *DictionaryItemService) Show(ctx context.Context, in *v1.DictionaryItemShowRequest, out *v1.DictionaryItemShowResponse) error {
-	claim, err := svc.Claim(ctx, svc.jwt)
+	claim, err := svc.Claim(ctx, svc.door)
 	if err != nil {
 		return err
 	}
 
-	if claim.IsAdmin() {
+	userMapping, err := svc.authSvc.GetMapping(ctx, &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	if claim.IsAdmin {
 		_, err = svc.dictionaryGroupSvc.GetByID(ctx, in.GroupId)
-	} else if claim.IsTenantAdmin() {
-		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, claim.TenantID, in.GroupId)
+	} else if userMapping.IsTenantAdmin {
+		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, userMapping.TenantId, in.GroupId)
 	} else {
-		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, claim.TenantID, claim.UserID, in.GroupId)
+		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, userMapping.TenantId, userMapping.Id, in.GroupId)
 	}
 	if err != nil {
 		return err
@@ -110,17 +140,24 @@ func (svc *DictionaryItemService) Show(ctx context.Context, in *v1.DictionaryIte
 
 // Update implements v1.DictionaryItemServiceHandler.
 func (svc *DictionaryItemService) Update(ctx context.Context, in *v1.DictionaryItemUpdateRequest, out *emptypb.Empty) error {
-	claim, err := svc.Claim(ctx, svc.jwt)
+	claim, err := svc.Claim(ctx, svc.door)
 	if err != nil {
 		return err
 	}
 
-	if claim.IsAdmin() {
+	userMapping, err := svc.authSvc.GetMapping(ctx, &authv1.GetMappingRequest{
+		Name: claim.Name,
+	})
+	if err != nil {
+		return err
+	}
+
+	if claim.IsAdmin {
 		_, err = svc.dictionaryGroupSvc.GetByID(ctx, in.GroupId)
-	} else if claim.IsTenantAdmin() {
-		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, claim.TenantID, in.GroupId)
+	} else if userMapping.IsTenantAdmin {
+		_, err = svc.dictionaryGroupSvc.GetByTenantID(ctx, userMapping.TenantId, in.GroupId)
 	} else {
-		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, claim.TenantID, claim.UserID, in.GroupId)
+		_, err = svc.dictionaryGroupSvc.GetByUserID(ctx, userMapping.TenantId, userMapping.Id, in.GroupId)
 	}
 	if err != nil {
 		return err
