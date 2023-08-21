@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"github.com/atom-apps/common/consts"
-	"github.com/atom-apps/common/errorx"
 	"github.com/atom-apps/dictionary/common"
 	"github.com/atom-apps/dictionary/database/models"
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
@@ -30,12 +28,7 @@ type DictionaryGroupController struct {
 //	@Param			id	path		int	true	"DictionaryGroupID"
 //	@Success		200	{object}	dto.DictionaryGroupItem
 //	@Router			/dictionaries/{id} [get]
-func (c *DictionaryGroupController) Show(ctx *fiber.Ctx, id int64) (*dto.DictionaryGroupItem, error) {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return nil, errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupController) Show(ctx *fiber.Ctx, claim *jwt.Claims, id int64) (*dto.DictionaryGroupItem, error) {
 	var err error
 	var item *models.DictionaryGroup
 	if claim.IsAdmin() {
@@ -63,12 +56,7 @@ func (c *DictionaryGroupController) Show(ctx *fiber.Ctx, id int64) (*dto.Diction
 //	@Param			slug	path		string	true	"DictionaryGroupSlug"
 //	@Success		200		{object}	dto.DictionaryGroupItem
 //	@Router			/dictionaries/slug/{slug} [get]
-func (c *DictionaryGroupController) ShowBySlug(ctx *fiber.Ctx, slug string) (*dto.DictionaryGroupItem, error) {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return nil, errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupController) ShowBySlug(ctx *fiber.Ctx, claim *jwt.Claims, slug string) (*dto.DictionaryGroupItem, error) {
 	var err error
 	var item *models.DictionaryGroup
 	if claim.IsAdmin() {
@@ -99,15 +87,11 @@ func (c *DictionaryGroupController) ShowBySlug(ctx *fiber.Ctx, slug string) (*dt
 //	@Router			/dictionaries [get]
 func (c *DictionaryGroupController) List(
 	ctx *fiber.Ctx,
+	claim *jwt.Claims,
 	queryFilter *dto.DictionaryGroupListQueryFilter,
 	pageFilter *common.PageQueryFilter,
 	sortFilter *common.SortQueryFilter,
 ) (*common.PageDataResponse, error) {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return nil, errorx.ErrTokenInvalid
-	}
-
 	queryFilter.TenantID = claim.TenantID
 	queryFilter.UserID = claim.UserID
 
@@ -133,12 +117,7 @@ func (c *DictionaryGroupController) List(
 //	@Param			body	body		dto.DictionaryGroupForm	true	"DictionaryGroupForm"
 //	@Success		200		{string}	DictionaryGroupID
 //	@Router			/dictionaries [post]
-func (c *DictionaryGroupController) Create(ctx *fiber.Ctx, body *dto.DictionaryGroupForm) error {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupController) Create(ctx *fiber.Ctx, claim *jwt.Claims, body *dto.DictionaryGroupForm) error {
 	body.TenantID = claim.TenantID
 	body.UserID = claim.UserID
 
@@ -157,12 +136,7 @@ func (c *DictionaryGroupController) Create(ctx *fiber.Ctx, body *dto.DictionaryG
 //	@Success		200		{string}	DictionaryGroupID
 //	@Failure		500		{string}	DictionaryGroupID
 //	@Router			/dictionaries/{id} [put]
-func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.DictionaryGroupForm) error {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, claim *jwt.Claims, id int64, body *dto.DictionaryGroupForm) error {
 	if claim.IsAdmin() {
 		return c.dictionaryGroupSvc.Update(ctx.Context(), id, body)
 	}
@@ -180,12 +154,7 @@ func (c *DictionaryGroupController) Update(ctx *fiber.Ctx, id int64, body *dto.D
 //	@Success		200	{string}	DictionaryGroupID
 //	@Failure		500	{string}	DictionaryGroupID
 //	@Router			/dictionaries/{id} [delete]
-func (c *DictionaryGroupController) Delete(ctx *fiber.Ctx, id int64) error {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupController) Delete(ctx *fiber.Ctx, claim *jwt.Claims, id int64) error {
 	if claim.IsAdmin() {
 		return c.dictionaryGroupSvc.Delete(ctx.Context(), claim.TenantID, id)
 	}
@@ -204,11 +173,6 @@ func (c *DictionaryGroupController) Delete(ctx *fiber.Ctx, id int64) error {
 //	@Success		200	{string}	DictionaryGroupID
 //	@Failure		500	{string}	DictionaryGroupID
 //	@Router			/dictionaries/{id}/share [put]
-func (c *DictionaryGroupController) Share(ctx *fiber.Ctx, id int64) error {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupController) Share(ctx *fiber.Ctx, claim *jwt.Claims, id int64) error {
 	return c.dictionaryGroupSvc.ShareByID(ctx.Context(), claim.TenantID, claim.UserID, id)
 }
