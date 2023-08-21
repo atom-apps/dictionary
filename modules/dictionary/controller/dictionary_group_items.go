@@ -1,33 +1,17 @@
 package controller
 
 import (
-	authv1 "github.com/atom-apps/auth/proto/v1"
-	"github.com/atom-apps/common/consts"
-	"github.com/atom-apps/common/errorx"
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
 	"github.com/atom-apps/dictionary/modules/dictionary/service"
 	"github.com/atom-providers/jwt"
-	"github.com/rogeecn/atom/contracts"
-	"go-micro.dev/v4"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 // @provider
 type DictionaryGroupItemController struct {
-	micro contracts.MicroService
-
-	authSvc authv1.UserService `inject:"false"`
-
 	dictionaryGroupSvc     *service.DictionaryGroupService
 	dictionaryGroupItemSvc *service.DictionaryGroupItemService
-}
-
-func (c *DictionaryGroupItemController) Prepare() error {
-	microService := c.micro.GetEngine().(micro.Service)
-
-	c.authSvc = authv1.NewUserService(consts.AppAuth.String(), microService.Client())
-	return nil
 }
 
 // Show get single item info
@@ -41,12 +25,7 @@ func (c *DictionaryGroupItemController) Prepare() error {
 //	@Param			id				path		int	true	"DictionaryGroupItemID"
 //	@Success		200				{object}	dto.DictionaryGroupItemItem
 //	@Router			/dictionaries/{dictionary_id}/items/{id} [get]
-func (c *DictionaryGroupItemController) Show(ctx *fiber.Ctx, dictionaryId, id int64) (*dto.DictionaryGroupItemItem, error) {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return nil, errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupItemController) Show(ctx *fiber.Ctx, claim *jwt.Claims, dictionaryId, id int64) (*dto.DictionaryGroupItemItem, error) {
 	var err error
 	if claim.IsAdmin() {
 		_, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), dictionaryId)
@@ -78,12 +57,7 @@ func (c *DictionaryGroupItemController) Show(ctx *fiber.Ctx, dictionaryId, id in
 //	@Param			body			body		dto.DictionaryGroupItemForm	true	"DictionaryGroupItemForm"
 //	@Success		200				{string}	DictionaryGroupItemID
 //	@Router			/dictionaries/{dictionary_id}/items [post]
-func (c *DictionaryGroupItemController) Create(ctx *fiber.Ctx, dictionaryId int64, body *dto.DictionaryGroupItemForm) error {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupItemController) Create(ctx *fiber.Ctx, claim *jwt.Claims, dictionaryId int64, body *dto.DictionaryGroupItemForm) error {
 	var err error
 	if claim.IsAdmin() {
 		_, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), dictionaryId)
@@ -112,12 +86,7 @@ func (c *DictionaryGroupItemController) Create(ctx *fiber.Ctx, dictionaryId int6
 //	@Success		200				{string}	DictionaryGroupItemID
 //	@Failure		500				{string}	DictionaryGroupItemID
 //	@Router			/dictionaries/{dictionary_id}/items/{id} [put]
-func (c *DictionaryGroupItemController) Update(ctx *fiber.Ctx, dictionaryId, id int64, body *dto.DictionaryGroupItemForm) error {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupItemController) Update(ctx *fiber.Ctx, claim *jwt.Claims, dictionaryId, id int64, body *dto.DictionaryGroupItemForm) error {
 	var err error
 
 	if claim.IsAdmin() {
@@ -146,12 +115,7 @@ func (c *DictionaryGroupItemController) Update(ctx *fiber.Ctx, dictionaryId, id 
 //	@Success		200				{string}	DictionaryGroupItemID
 //	@Failure		500				{string}	DictionaryGroupItemID
 //	@Router			/dictionaries/{dictionary_id}/items/{id} [delete]
-func (c *DictionaryGroupItemController) Delete(ctx *fiber.Ctx, dictionaryId, id int64) error {
-	claim, ok := ctx.Locals(consts.JwtCtx).(*jwt.Claims)
-	if !ok {
-		return errorx.ErrTokenInvalid
-	}
-
+func (c *DictionaryGroupItemController) Delete(ctx *fiber.Ctx, claim *jwt.Claims, dictionaryId, id int64) error {
 	var err error
 	if claim.IsAdmin() {
 		_, err = c.dictionaryGroupSvc.GetByID(ctx.Context(), dictionaryId)

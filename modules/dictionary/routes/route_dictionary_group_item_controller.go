@@ -6,6 +6,7 @@ import (
 	 "strings"
 
 	"github.com/atom-apps/dictionary/modules/dictionary/controller"
+	"github.com/atom-providers/jwt"
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
 
 	"github.com/gofiber/fiber/v2"
@@ -14,8 +15,8 @@ import (
 
 func routeDictionaryGroupItemController(engine fiber.Router, controller *controller.DictionaryGroupItemController) {
 	basePath := "/"+engine.(*fiber.Group).Prefix
-	engine.Get(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), DataFunc2(controller.Show, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
-	engine.Post(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items", basePath), Func2(controller.Create, Integer[int64]("dictionaryId", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
-	engine.Put(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), Func3(controller.Update, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
-	engine.Delete(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), Func2(controller.Delete, Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
+	engine.Get(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), DataFunc3(controller.Show, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
+	engine.Post(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items", basePath), Func3(controller.Create, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("dictionaryId", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
+	engine.Put(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), Func4(controller.Update, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupItemForm](BodyParamError)))
+	engine.Delete(strings.TrimPrefix("/dictionaries/:dictionaryId<int>/items/:id<int>", basePath), Func3(controller.Delete, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("dictionaryId", PathParamError), Integer[int64]("id", PathParamError)))
 }

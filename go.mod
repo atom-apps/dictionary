@@ -15,7 +15,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/jinzhu/copier v0.3.5
 	github.com/rogeecn/atom v1.0.8
-	github.com/rogeecn/fen v1.0.7
+	github.com/rogeecn/fen v1.0.9
 	github.com/samber/lo v1.38.1
 	go-micro.dev/v4 v4.10.2
 	golang.org/x/exp v0.0.0-20230801115018-d63ba01acd4b

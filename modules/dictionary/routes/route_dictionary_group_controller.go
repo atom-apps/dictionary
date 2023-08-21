@@ -6,6 +6,7 @@ import (
 	 "strings"
 
 	"github.com/atom-apps/dictionary/modules/dictionary/controller"
+	"github.com/atom-providers/jwt"
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
 	"github.com/atom-apps/dictionary/common"
 
@@ -15,11 +16,11 @@ import (
 
 func routeDictionaryGroupController(engine fiber.Router, controller *controller.DictionaryGroupController) {
 	basePath := "/"+engine.(*fiber.Group).Prefix
-	engine.Get(strings.TrimPrefix("/dictionaries/:id<int>", basePath), DataFunc1(controller.Show, Integer[int64]("id", PathParamError)))
-	engine.Get(strings.TrimPrefix("/dictionaries/slug/:slug", basePath), DataFunc1(controller.ShowBySlug, String("slug", PathParamError)))
-	engine.Get(strings.TrimPrefix("/dictionaries", basePath), DataFunc3(controller.List, Query[dto.DictionaryGroupListQueryFilter](QueryParamError), Query[common.PageQueryFilter](QueryParamError), Query[common.SortQueryFilter](QueryParamError)))
-	engine.Post(strings.TrimPrefix("/dictionaries", basePath), Func1(controller.Create, Body[dto.DictionaryGroupForm](BodyParamError)))
-	engine.Put(strings.TrimPrefix("/dictionaries/:id<int>", basePath), Func2(controller.Update, Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupForm](BodyParamError)))
-	engine.Delete(strings.TrimPrefix("/dictionaries/:id<int>", basePath), Func1(controller.Delete, Integer[int64]("id", PathParamError)))
-	engine.Put(strings.TrimPrefix("/dictionaries/:id<int>/share", basePath), Func1(controller.Share, Integer[int64]("id", PathParamError)))
+	engine.Get(strings.TrimPrefix("/dictionaries/:id<int>", basePath), DataFunc2(controller.Show, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("id", PathParamError)))
+	engine.Get(strings.TrimPrefix("/dictionaries/slug/:slug", basePath), DataFunc2(controller.ShowBySlug, JwtClaim[jwt.Claims](ClaimParamError), String("slug", PathParamError)))
+	engine.Get(strings.TrimPrefix("/dictionaries", basePath), DataFunc4(controller.List, JwtClaim[jwt.Claims](ClaimParamError), Query[dto.DictionaryGroupListQueryFilter](QueryParamError), Query[common.PageQueryFilter](QueryParamError), Query[common.SortQueryFilter](QueryParamError)))
+	engine.Post(strings.TrimPrefix("/dictionaries", basePath), Func2(controller.Create, JwtClaim[jwt.Claims](ClaimParamError), Body[dto.DictionaryGroupForm](BodyParamError)))
+	engine.Put(strings.TrimPrefix("/dictionaries/:id<int>", basePath), Func3(controller.Update, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("id", PathParamError), Body[dto.DictionaryGroupForm](BodyParamError)))
+	engine.Delete(strings.TrimPrefix("/dictionaries/:id<int>", basePath), Func2(controller.Delete, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("id", PathParamError)))
+	engine.Put(strings.TrimPrefix("/dictionaries/:id<int>/share", basePath), Func2(controller.Share, JwtClaim[jwt.Claims](ClaimParamError), Integer[int64]("id", PathParamError)))
 }
