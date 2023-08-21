@@ -6,7 +6,6 @@ import (
 	"github.com/atom-apps/dictionary/modules/dictionary/dto"
 	"github.com/atom-apps/dictionary/modules/dictionary/service"
 	"github.com/atom-providers/jwt"
-	"github.com/rogeecn/atom/contracts"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/samber/lo"
@@ -14,7 +13,6 @@ import (
 
 // @provider
 type DictionaryGroupController struct {
-	micro              contracts.MicroService
 	dictionaryGroupSvc *service.DictionaryGroupService
 }
 
